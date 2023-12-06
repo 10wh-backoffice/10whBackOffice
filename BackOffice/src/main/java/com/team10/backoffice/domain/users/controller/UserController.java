@@ -10,6 +10,7 @@ import com.team10.backoffice.jwt.JwtUtil;
 import com.team10.backoffice.security.UserDetailsImpl;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -96,7 +97,8 @@ public class UserController {
 
 
 	@PatchMapping("/password")
-	public ResponseEntity<ApiResponse<?>> updatePassword(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserPasswordDto userPasswordDto) {
+		public ResponseEntity<ApiResponse<?>> updatePassword(
+			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, @Valid @RequestBody UserPasswordDto userPasswordDto) {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updatePassword(userId, userPasswordDto);
 
