@@ -23,6 +23,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	public JwtAuthenticationFilter(JwtUtil jwtUtil) {
 		this.jwtUtil = jwtUtil;
+		// 필터를 적용할 경로 설정
 		setFilterProcessesUrl("/api/auth/login");
 	}
 
@@ -32,7 +33,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		try {
 			var inputStream = request.getInputStream();
 			UserRequestDto requestDto = new ObjectMapper().readValue( inputStream, UserRequestDto.class);
-
+			log.info("------" + requestDto.toString());
 			return getAuthenticationManager().authenticate(
 					new UsernamePasswordAuthenticationToken(
 							requestDto.getUsername(),

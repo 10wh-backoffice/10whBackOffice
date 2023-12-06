@@ -25,9 +25,9 @@ import java.net.URLEncoder;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class UserController {
-	private final UserService userService;
-	//private final EmailService emailService;
-	//private final KakaoService kakaoService;
+    private final UserService userService;
+    //private final EmailService emailService;
+    //private final KakaoService kakaoService;
 
 	@PostMapping("/auth/signup")
 	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@RequestBody UserRequestDto userRequestDto) {
@@ -93,6 +93,7 @@ public class UserController {
 
 		return ResponseEntity.ok(ApiResponse.ok("update success"));
 	}
+
 
 	@PatchMapping("/users")
 	public ResponseEntity<ApiResponse<?>> updatePassword(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserPasswordDto userPasswordDto) {

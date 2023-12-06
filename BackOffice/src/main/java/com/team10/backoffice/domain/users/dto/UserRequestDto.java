@@ -2,11 +2,13 @@ package com.team10.backoffice.domain.users.dto;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Data
 public class UserRequestDto {
 	@Pattern(regexp = "^[a-z0-9]{4,10}$", message = "소문자 5~20자로 구성해주세요")
 	private String username;
