@@ -4,6 +4,7 @@ import com.team10.backoffice.domain.users.dto.UserPasswordDto;
 import com.team10.backoffice.domain.users.dto.UserRequestDto;
 import com.team10.backoffice.domain.users.dto.UserResponseDto;
 import com.team10.backoffice.domain.users.entity.User;
+import com.team10.backoffice.domain.users.entity.UserRoleEnum;
 import com.team10.backoffice.domain.users.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,21 @@ import java.util.NoSuchElementException;
 public class UserService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
+
+	@Transactional
+	public void signup( UserRequestDto userRequestDto ) {
+
+		String password = passwordEncoder.encode( userRequestDto.getPassword() );
+
+		User user = new User();
+		user.setUsername( userRequestDto.getUsername() );
+		user.setPassword( password );
+		user.setEmail( userRequestDto.getEmail() );
+		user.setIntroduce( userRequestDto.getIntroduce() );
+		user.setRole( UserRoleEnum.USER );
+
+		this.userRepository.save( user );
+	}
 
 	public UserResponseDto getUser(long userId) {
 		var user = this.userRepository.findById(userId)
