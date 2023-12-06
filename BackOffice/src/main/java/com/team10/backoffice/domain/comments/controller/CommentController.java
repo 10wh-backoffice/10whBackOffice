@@ -3,6 +3,7 @@ package com.team10.backoffice.domain.comments.controller;
 
 import com.team10.backoffice.domain.comments.dto.CommentRequestDto;
 import com.team10.backoffice.domain.comments.service.CommentService;
+import com.team10.backoffice.domain.users.entity.User;
 import com.team10.backoffice.etc.response.ApiResponse;
 import com.team10.backoffice.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -17,19 +18,17 @@ public class CommentController {
     private final CommentService commentService;
 
     @GetMapping("/{postId}/comments")
-    public ResponseEntity< ApiResponse > getComment( @AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                     @PathVariable("postId") Long postId) {
+    public ResponseEntity< ApiResponse > getComment( @PathVariable("postId") Long postId ) {
         return ResponseEntity.ok(ApiResponse.ok(
-                commentService.getComment(userDetails.getUser().getId(), postId)
+                commentService.getComment( postId )
         ));
     }
 
     @GetMapping("/{postId}/comments/{commentId}")
-    public ResponseEntity<ApiResponse> getCommentDetail(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                        @PathVariable("postId") Long postId,
-                                                        @PathVariable("commentId") Long commentId) {
+    public ResponseEntity<ApiResponse> getCommentDetail( @PathVariable("postId") Long postId,
+                                                        @PathVariable("commentId") Long commentId ) {
         return ResponseEntity.ok(ApiResponse.ok(
-                commentService.getCommentDetail(userDetails.getUser().getId(),postId,commentId)
+                commentService.getCommentDetail( postId,commentId )
         ));
     }
 
@@ -37,17 +36,9 @@ public class CommentController {
     public ResponseEntity<ApiResponse> createComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                      @PathVariable("postId") Long postId,
                                                      @RequestBody CommentRequestDto requestDto) {
-        commentService.createComment(userDetails.getUser(), postId, requestDto);
+        User user = userDetails.getUser();
+        commentService.createComment( user, postId, requestDto );
         return ResponseEntity.ok(ApiResponse.ok("게시글 번호 " + postId + " 에 댓글이 달렸습니다."));
-    }
-
-    @PostMapping("/{postId}/{parentCommentId}/comments")
-    public ResponseEntity<ApiResponse> createReply(@AuthenticationPrincipal UserDetailsImpl userDetails,
-                                                   @PathVariable("postId") Long postId,
-                                                   @PathVariable("parentCommentId") Long parentCommentId,
-                                                   @RequestBody CommentRequestDto requestDto) {
-        commentService.createReply(userDetails.getUser(), postId, parentCommentId, requestDto);
-        return ResponseEntity.ok(ApiResponse.ok("댓글 번호 " + parentCommentId + " 에 댓글이 달렸습니다."));
     }
 
     @PatchMapping("/{postId}/comments/{commentId}")
@@ -69,7 +60,7 @@ public class CommentController {
     public ResponseEntity<ApiResponse> likeComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                    @PathVariable("postId") Long postId,
                                                    @PathVariable("commentId") Long commentId) {
-//        commentService.createCommentLike(userDetails.getUser(), commentId);
+        commentService.createCommentLike(userDetails.getUser(), commentId);
         return ResponseEntity.ok(ApiResponse.ok("댓글 번호 " + commentId + " 에 좋아요 가 적용되었습니다."));
     }
 
@@ -77,7 +68,7 @@ public class CommentController {
     public ResponseEntity<ApiResponse> deleteLikeComment(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                          @PathVariable("postId") Long postId,
                                                          @PathVariable("commentId") Long commentId) {
-//        commentService.deleteCommentLike(userDetails.getUser().getId(), commentId);
+        commentService.deleteCommentLike(userDetails.getUser().getId(), commentId);
         return ResponseEntity.ok(ApiResponse.ok("댓글 번호 " + commentId + " 에 좋아요 가 해제되었습니다."));
     }
 }
