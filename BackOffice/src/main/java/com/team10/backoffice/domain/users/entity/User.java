@@ -22,6 +22,10 @@ public class User {
 	private String email;
 	private String introduce;
 
+	@ElementCollection
+	@CollectionTable(name = "oldPasswords", joinColumns = @JoinColumn(name = "user_id"))
+	private List<String> oldPasswords = new ArrayList<>();
+
 	@Enumerated( value = EnumType.STRING )
 	private UserRoleEnum role;
 
