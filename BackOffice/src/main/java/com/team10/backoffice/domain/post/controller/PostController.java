@@ -20,19 +20,19 @@ public class PostController {
 
     // 등록 수정 삭제
 
-    @PostMapping("/post")
+    @PostMapping("/posts")
     public ResponseEntity<ApiResponse> addPost(@RequestBody PostRequestDto postRequestDTO) {
         postService.addPost(postRequestDTO);
         return ResponseEntity.ok(ApiResponse.ok("SUCCESS_ADD_POST"));
     }
 
-    @PatchMapping("/post/{id}") // 게시글 수정
+    @PatchMapping("/posts/{id}") // 게시글 수정
     public ResponseEntity<ApiResponse> updatePost(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         postService.updatePost(id, postRequestDto, userDetails.getUser());
         return ResponseEntity.ok(ApiResponse.ok("SUCCESS_UPDATE_POST"));
     }
 
-    @DeleteMapping("/post/{id}") // 게시글 삭제
+    @DeleteMapping("/posts/{id}") // 게시글 삭제
     public ResponseEntity<ApiResponse> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         postService.removePost(id, userDetails.getUser());
         return ResponseEntity.ok(ApiResponse.ok("SUCCESS_DELETE_POST"));
