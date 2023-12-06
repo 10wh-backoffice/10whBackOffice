@@ -95,7 +95,7 @@ public class UserController {
 	}
 
 
-	@PatchMapping("/users")
+	@PatchMapping("/password")
 	public ResponseEntity<ApiResponse<?>> updatePassword(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserPasswordDto userPasswordDto) {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updatePassword(userId, userPasswordDto);

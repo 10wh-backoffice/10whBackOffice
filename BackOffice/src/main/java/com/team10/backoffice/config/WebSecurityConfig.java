@@ -51,14 +51,15 @@ public class WebSecurityConfig {
         // CSRF 설정
         http.csrf(AbstractHttpConfigurer::disable);
 
-//        http.authorizeHttpRequests((authorizeHttpRequests) ->
-//                authorizeHttpRequests
-//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
-//                        .requestMatchers("/api/auth/**").permitAll() // '/api/user/'로 시작하는 요청 모두 접근 허가
-//                        .requestMatchers("/api/users/kakao/**").permitAll()
-//                        .requestMatchers("/api/users/login-user").permitAll()
-//                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
-//        );
+        http.authorizeHttpRequests((authorizeHttpRequests) ->
+                authorizeHttpRequests
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
+                        .requestMatchers("/api/auth/**").permitAll() // '/api/user/'로 시작하는 요청 모두 접근 허가
+                        .requestMatchers("/api/users/kakao/**").permitAll()
+                        .requestMatchers("/api/users/login-user").permitAll()
+                        .requestMatchers( "/swagger-ui/**" ).permitAll()
+                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+        );
 
         http.formLogin(form -> form
                 .loginPage("/member/login")
