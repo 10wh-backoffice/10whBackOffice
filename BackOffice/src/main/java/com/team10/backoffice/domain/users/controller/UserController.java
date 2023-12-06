@@ -1,6 +1,7 @@
 package com.team10.backoffice.domain.users.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.team10.backoffice.domain.users.dto.UserPasswordDto;
 import com.team10.backoffice.domain.users.dto.UserRequestDto;
 import com.team10.backoffice.domain.users.dto.UserResponseDto;
 import com.team10.backoffice.domain.users.service.UserService;
@@ -28,69 +29,77 @@ public class UserController {
     //private final EmailService emailService;
     //private final KakaoService kakaoService;
 
-    @PostMapping("/auth/signup")
-    public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@RequestBody UserRequestDto userRequestDto) {
-        //this.emailService.sendEmailAuth( userRequestDto );
+	@PostMapping("/auth/signup")
+	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@RequestBody UserRequestDto userRequestDto) {
+		//this.emailService.sendEmailAuth( userRequestDto );
 
-        return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getEmail() + "으로 인증 메일을 발송하였습니다."));
-    }
+		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getEmail() + "으로 인증 메일을 발송하였습니다."));
+	}
 
-    @GetMapping("/auth/signup/email/{id}")
-    public ResponseEntity<ApiResponse<?>> email_auth(@PathVariable String id) {
-        //this.userService.signupEmailAuth( id );
+	@GetMapping("/auth/signup/email/{id}")
+	public ResponseEntity<ApiResponse<?>> email_auth(@PathVariable String id) {
+		//this.userService.signupEmailAuth( id );
 
-        return ResponseEntity.ok(ApiResponse.ok("회원 가입을 축하합니다. 이제부터 로그인 가능합니다."));
-    }
+		return ResponseEntity.ok(ApiResponse.ok("회원 가입을 축하합니다. 이제부터 로그인 가능합니다."));
+	}
 
-    @GetMapping("/users/kakao/callback")
-    public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
-        //String token = kakaoService.kakaoLogin( code );
-        String token = "";
+	@GetMapping("/users/kakao/callback")
+	public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
+		//String token = kakaoService.kakaoLogin( code );
+		String token = "";
 
-        token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
-        Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token);
-        cookie.setPath("/");
+		token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
+		Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token);
+		cookie.setPath("/");
 
-        response.addCookie(cookie);
+		response.addCookie(cookie);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/"));
-        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-    }
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(URI.create("/"));
+		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+	}
 
-    @GetMapping("/users/logout")
-    public ResponseEntity<?> logout(HttpServletResponse response) {
-        Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, "");
-        cookie.setPath("/");
+	@GetMapping("/users/logout")
+	public ResponseEntity<?> logout(HttpServletResponse response) {
+		Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, "");
+		cookie.setPath("/");
 
-        response.addCookie(cookie);
+		response.addCookie(cookie);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create("/"));
-        return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
-    }
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(URI.create("/"));
+		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
+	}
 
-    @GetMapping("/users/{userId}")
-    public ResponseEntity<ApiResponse<?>> getUser(@PathVariable long userId) {
-        var userResponseDto = this.userService.getUser(userId);
+	@GetMapping("/users/{userId}")
+	public ResponseEntity<ApiResponse<?>> getUser(@PathVariable long userId) {
+		var userResponseDto = this.userService.getUser(userId);
 
-        return ResponseEntity.ok(ApiResponse.ok(userResponseDto));
-    }
+		return ResponseEntity.ok(ApiResponse.ok(userResponseDto));
+	}
 
-    @GetMapping("/users/login-user")
-    public ResponseEntity<ApiResponse<?>> getLoginUser(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
-        var user = userDetailsImpl.getUser();
+	@GetMapping("/users/login-user")
+	public ResponseEntity<ApiResponse<?>> getLoginUser(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
+		var user = userDetailsImpl.getUser();
 
-        return ResponseEntity.ok(ApiResponse.ok(new UserResponseDto(user)));
-    }
+		return ResponseEntity.ok(ApiResponse.ok(new UserResponseDto(user)));
+	}
 
 
-    @PatchMapping("/users")
-    public ResponseEntity<ApiResponse<?>> updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserRequestDto userRequestDto) {
-        var userId = userDetailsImpl.getUser().getId();
-        userService.updateUser(userId, userRequestDto);
+	@PatchMapping("/users")
+	public ResponseEntity<ApiResponse<?>> updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserRequestDto userRequestDto) {
+		var userId = userDetailsImpl.getUser().getId();
+		userService.updateUser(userId, userRequestDto);
 
-        return ResponseEntity.ok(ApiResponse.ok("update success"));
-    }
+		return ResponseEntity.ok(ApiResponse.ok("update success"));
+	}
 
+
+	@PatchMapping("/users")
+	public ResponseEntity<ApiResponse<?>> updatePassword(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserPasswordDto userPasswordDto) {
+		var userId = userDetailsImpl.getUser().getId();
+		userService.updatePassword(userId, userPasswordDto);
+
+		return ResponseEntity.ok(ApiResponse.ok("update success"));
+	}
 }

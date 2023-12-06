@@ -11,12 +11,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserResponseDto {
 	private String username;
+	private String nickname;
 	private String email;
 	private String introduce;
 
 	@Builder
 	public UserResponseDto( User user ) {
 		this.username = user.getUsername();
+		this.nickname = user.getNickname();
 		this.email = user.getEmail();
 		this.introduce = user.getIntroduce();
 	}
