@@ -21,56 +21,56 @@ import java.io.IOException;
 @Slf4j(topic = "JWT 검증 및 인가")
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-	private final JwtUtil jwtUtil;
-	private final UserDetailsServiceImpl userDetailsService;
+    private final JwtUtil jwtUtil;
+    private final UserDetailsServiceImpl userDetailsService;
 
-	public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
-		this.jwtUtil = jwtUtil;
-		this.userDetailsService = userDetailsService;
-	}
+    public JwtAuthorizationFilter(JwtUtil jwtUtil, UserDetailsServiceImpl userDetailsService) {
+        this.jwtUtil = jwtUtil;
+        this.userDetailsService = userDetailsService;
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
+    @Override
+    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
 
-		String tokenValue = jwtUtil.getTokenFromRequest(req);
+        String tokenValue = jwtUtil.getTokenFromRequest(req);
 
-		if (StringUtils.hasText(tokenValue)) {
-			// JWT 토큰 substring
-			tokenValue = jwtUtil.substringToken(tokenValue);
-			log.info(tokenValue);
+        if (StringUtils.hasText(tokenValue)) {
+            // JWT 토큰 substring
+            tokenValue = jwtUtil.substringToken(tokenValue);
+            log.info(tokenValue);
 
-			if (!jwtUtil.validateToken(tokenValue)) {
-				log.error("Token Error");
-				return;
-			}
+            if (!jwtUtil.validateToken(tokenValue)) {
+                log.error("Token Error");
+                return;
+            }
 
-			Claims claims = jwtUtil.getUserInfoFromToken( tokenValue );
-			long userId = Long.parseLong( String.valueOf( claims.get( JwtUtil.CLAIM_USER_ID ) ) );
+            Claims claims = jwtUtil.getUserInfoFromToken(tokenValue);
+            String username = String.valueOf(claims.get(JwtUtil.CLAIM_USER_NAME));
 
-			try {
-				setAuthentication( userId );
-			} catch (Exception e) {
-				log.error(e.getMessage());
-				return;
-			}
-		}
+            try {
+                setAuthentication(username);
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                return;
+            }
+        }
 
-		filterChain.doFilter(req, res);
-	}
+        filterChain.doFilter(req, res);
+    }
 
-	// 인증 처리
-	public void setAuthentication( long userId ) {
-		SecurityContext context = SecurityContextHolder.createEmptyContext();
-		Authentication authentication = createAuthentication( userId );
-		context.setAuthentication(authentication);
+    // 인증 처리
+    public void setAuthentication(String username) {
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        Authentication authentication = createAuthentication(username);
+        context.setAuthentication(authentication);
 
-		SecurityContextHolder.setContext(context);
-	}
+        SecurityContextHolder.setContext(context);
+    }
 
-	// 인증 객체 생성
-	private Authentication createAuthentication( long userId ) {
-		UserDetails userDetails = userDetailsService.loadUserByUserId( userId );
+    // 인증 객체 생성
+    private Authentication createAuthentication(String username) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-	}
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+    }
 }

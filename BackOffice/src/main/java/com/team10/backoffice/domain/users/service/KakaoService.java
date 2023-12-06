@@ -4,6 +4,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.team10.backoffice.domain.users.dto.KakaoUserInfoDto;
+<<<<<<< Updated upstream
+=======
+import com.team10.backoffice.domain.users.entity.User;
+import com.team10.backoffice.domain.users.entity.UserRoleEnum;
+>>>>>>> Stashed changes
 import com.team10.backoffice.domain.users.repository.UserRepository;
 import com.team10.backoffice.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +24,10 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+<<<<<<< Updated upstream
+=======
+import java.util.UUID;
+>>>>>>> Stashed changes
 
 @Service
 @RequiredArgsConstructor
@@ -33,11 +42,22 @@ public class KakaoService {
     public String kakaoLogin(String code) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getToken(code);
+<<<<<<< Updated upstream
 
         // 2. 토큰으로 카카오 API 호출 : "액세스 토큰"으로 "카카오 사용자 정보" 가져오기
         KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
 
         return null;
+=======
+        log.info("토큰 : " + accessToken);
+        // 2. 토큰으로 카카오 API 호출 : "액세스 토큰"으로 "카카오 사용자 정보" 가져오기
+        KakaoUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
+        // 3.필요시 회원가입
+        User kakaoUser = registerKakaoUserIfNeeded(kakaoUserInfo);
+        // 4.jwt토큰 발급
+        String createdToken = jwtUtil.createToken(kakaoUser.getUsername(), kakaoUser.getRole());
+        return createdToken;
+>>>>>>> Stashed changes
     }
     private String getToken(String code) throws JsonProcessingException {
         // 요청 URL 만들기
@@ -110,5 +130,37 @@ public class KakaoService {
         return new KakaoUserInfoDto(id, nickname, email);
     }
 
+<<<<<<< Updated upstream
+=======
+    private User registerKakaoUserIfNeeded(KakaoUserInfoDto kakaoUserInfo) {
+        // DB 에 중복된 Kakao Id 가 있는지 확인
+        Long kakaoId = kakaoUserInfo.getId();
+        User kakaoUser = userRepository.findByKakaoId(kakaoId).orElse(null);
+
+        if (kakaoUser == null) {
+            // 카카오 사용자 email 동일한 email 가진 회원이 있는지 확인
+            String kakaoEmail = kakaoUserInfo.getEmail();
+            User sameEmailUser = userRepository.findByEmail(kakaoEmail).orElse(null);
+            if (sameEmailUser != null) {
+                kakaoUser = sameEmailUser;
+                // 기존 회원정보에 카카오 Id 추가
+                kakaoUser = kakaoUser.kakaoIdUpdate(kakaoId);
+            } else {
+                // 신규 회원가입
+                // password: random UUID
+                String password = UUID.randomUUID().toString();
+                String encodedPassword = passwordEncoder.encode(password);
+
+                // email: kakao email
+                String email = kakaoUserInfo.getEmail();
+
+                kakaoUser = new User(kakaoUserInfo.getNickname(), encodedPassword, email, UserRoleEnum.USER, kakaoId);
+            }
+
+            userRepository.save(kakaoUser);
+        }
+        return kakaoUser;
+    }
+>>>>>>> Stashed changes
 
 }

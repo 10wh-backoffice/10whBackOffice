@@ -57,6 +57,7 @@ public class WebSecurityConfig {
 //                        .requestMatchers("/api/auth/**").permitAll() // '/api/user/'로 시작하는 요청 모두 접근 허가
 //                        .requestMatchers("/api/users/kakao/**").permitAll()
 //                        .requestMatchers("/api/users/login-user").permitAll()
+<<<<<<< Updated upstream
 //                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
 //        );
 
@@ -67,6 +68,20 @@ public class WebSecurityConfig {
 //        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
 //        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
+=======
+//                        .requestMatchers( "/swagger-ui/**" ).permitAll()
+//                        .requestMatchers( "/v3/api-docs/**" ).permitAll()
+//                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
+//        );
+//
+//        http.formLogin(form -> form
+//                .loginPage("/member/login")
+//        );
+//
+//        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
+//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+>>>>>>> Stashed changes
         return http.build();
     }
 }

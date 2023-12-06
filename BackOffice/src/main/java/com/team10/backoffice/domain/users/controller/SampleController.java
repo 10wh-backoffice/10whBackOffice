@@ -12,5 +12,12 @@ public class SampleController {
     public String login() {
         return "member/login";
     }
+<<<<<<< Updated upstream
+=======
+    @GetMapping("/")
+    public String mainPage() {
+        return "index";
+    }
+>>>>>>> Stashed changes
 
 }
