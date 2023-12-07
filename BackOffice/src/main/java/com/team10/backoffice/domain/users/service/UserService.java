@@ -58,7 +58,7 @@ public class UserService {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
 
-		user.setUsername(userRequestDto.getUsername());
+		user.setNickname(userRequestDto.getNickname());
 		user.setIntroduction(userRequestDto.getIntroduction());
 		user.setEmail(userRequestDto.getEmail());
 	}
