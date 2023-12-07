@@ -1,6 +1,7 @@
 package com.team10.backoffice.domain.comments.entity;
 
 import com.team10.backoffice.domain.comments.dto.CommentRequestDto;
+import com.team10.backoffice.domain.post.entity.Post;
 import com.team10.backoffice.domain.users.entity.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -47,17 +48,17 @@ public class Comment {
     @Column(nullable = true)
     private Boolean myLike;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "post_id", nullable = false)
-//    private Post post;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
 
     @Builder(builderClassName = "commentBuilder", builderMethodName = "commentBuilder")
-    public Comment( User user, CommentRequestDto requestDto/*, Post post*/) {
+    public Comment( User user, CommentRequestDto requestDto, Post post ) {
         this.writerId = user.getId();
         this.writerName = user.getUsername();
         this.content = requestDto.getContent();
-        //this.post = post;
+        this.post = post;
         this.depth = 1L;
         this.lastModifiedDate = LocalDateTime.now();
         this.likeCount = 0;
@@ -66,11 +67,11 @@ public class Comment {
     }
 
     @Builder(builderClassName = "replyBuilder", builderMethodName = "replyBuilder")
-    public Comment( User user, CommentRequestDto requestDto, /*Post post,*/ Long parentCommentId, Long depth) {
+    public Comment( User user, CommentRequestDto requestDto, Post post, Long parentCommentId, Long depth ) {
         this.writerId = user.getId();
         this.writerName = user.getUsername();
         this.content = requestDto.getContent();
-        //this.post = post;
+        this.post = post;
         this.parentCommentId = parentCommentId;
         this.depth = depth + 1;
         this.lastModifiedDate = LocalDateTime.now();
