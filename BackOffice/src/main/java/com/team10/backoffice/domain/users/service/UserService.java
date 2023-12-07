@@ -46,6 +46,7 @@ public class UserService {
 				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
 
 		UserResponseDto userResponseDto = new UserResponseDto();
+		userResponseDto.setUsername(user.getUsername());
 		userResponseDto.setNickname(user.getNickname());
 		userResponseDto.setEmail(user.getEmail());
 		userResponseDto.setIntroduction(user.getIntroduction());
