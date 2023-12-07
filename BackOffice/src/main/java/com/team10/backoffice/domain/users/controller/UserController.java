@@ -45,7 +45,7 @@ public class UserController {
 		return ResponseEntity.ok(ApiResponse.ok("회원 가입을 축하합니다. 이제부터 로그인 가능합니다."));
 	}
 
-	@GetMapping("/user/kakao/callback")
+	@GetMapping("/users/kakao/callback")
 	public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
 		String token = kakaoService.kakaoLogin( code );
 
