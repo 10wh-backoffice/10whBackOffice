@@ -7,11 +7,9 @@ import com.team10.backoffice.domain.post.repository.PostRepository;
 import com.team10.backoffice.domain.users.entity.User;
 import com.team10.backoffice.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 
 @Service
