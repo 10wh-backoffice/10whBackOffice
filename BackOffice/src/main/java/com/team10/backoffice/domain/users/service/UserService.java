@@ -34,7 +34,7 @@ public class UserService {
 		user.setUsername( userRequestDto.getUsername() );
 		user.setPassword( password );
 		user.setEmail( userRequestDto.getEmail() );
-		user.setIntroduce( userRequestDto.getIntroduce() );
+		user.setIntroduction( userRequestDto.getIntroduction() );
 		user.setRole( UserRoleEnum.USER );
 
 		this.userRepository.save( user );
@@ -47,7 +47,7 @@ public class UserService {
 		UserResponseDto userResponseDto = new UserResponseDto();
 		userResponseDto.setUsername(user.getUsername());
 		userResponseDto.setEmail(user.getEmail());
-		userResponseDto.setIntroduce(user.getIntroduce());
+		userResponseDto.setIntroduction(user.getIntroduction());
 
 		return userResponseDto;
 	}
@@ -58,7 +58,7 @@ public class UserService {
 				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
 
 		user.setUsername(userRequestDto.getUsername());
-		user.setIntroduce(userRequestDto.getIntroduce());
+		user.setIntroduction(userRequestDto.getIntroduction());
 		user.setEmail(userRequestDto.getEmail());
 	}
 

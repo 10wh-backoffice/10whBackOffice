@@ -20,7 +20,7 @@ public class User {
 	private String nickname;
 	private String password;
 	private String email;
-	private String introduce;
+	private String introduction;
 
 	@ElementCollection
 	@CollectionTable(name = "oldPasswords", joinColumns = @JoinColumn(name = "user_id"))
