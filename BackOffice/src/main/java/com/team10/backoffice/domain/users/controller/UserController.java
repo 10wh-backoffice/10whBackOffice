@@ -31,7 +31,7 @@ public class UserController {
     //private final KakaoService kakaoService;
 
 	@PostMapping("/auth/signup")
-	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@RequestBody UserRequestDto userRequestDto) {
+	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
 		//this.emailService.sendEmailAuth( userRequestDto );
 		this.userService.signup( userRequestDto );
 		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getEmail() + "으로 인증 메일을 발송하였습니다."));
