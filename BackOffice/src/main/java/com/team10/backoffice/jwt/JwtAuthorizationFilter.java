@@ -45,10 +45,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 			}
 
 			Claims claims = jwtUtil.getUserInfoFromToken( tokenValue );
-			long userId = Long.parseLong( String.valueOf( claims.get( JwtUtil.CLAIM_USER_ID ) ) );
+			String username = String.valueOf( claims.get( JwtUtil.CLAIM_USER_NAME ) );
 
 			try {
-				setAuthentication( userId );
+				setAuthentication( username );
 			} catch (Exception e) {
 				log.error(e.getMessage());
 				return;
@@ -59,17 +59,17 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 	}
 
 	// 인증 처리
-	public void setAuthentication( long userId ) {
+	public void setAuthentication( String username ) {
 		SecurityContext context = SecurityContextHolder.createEmptyContext();
-		Authentication authentication = createAuthentication( userId );
+		Authentication authentication = createAuthentication( username );
 		context.setAuthentication(authentication);
 
 		SecurityContextHolder.setContext(context);
 	}
 
 	// 인증 객체 생성
-	private Authentication createAuthentication( long userId ) {
-		UserDetails userDetails = userDetailsService.loadUserByUserId( userId );
+	private Authentication createAuthentication( String username ) {
+		UserDetails userDetails = userDetailsService.loadUserByUsername( username );
 
 		return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 	}

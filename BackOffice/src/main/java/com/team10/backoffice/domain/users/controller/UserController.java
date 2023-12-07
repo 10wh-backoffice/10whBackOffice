@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.team10.backoffice.domain.users.dto.UserPasswordDto;
 import com.team10.backoffice.domain.users.dto.UserRequestDto;
 import com.team10.backoffice.domain.users.dto.UserResponseDto;
+import com.team10.backoffice.domain.users.service.KakaoService;
 import com.team10.backoffice.domain.users.service.UserService;
 import com.team10.backoffice.etc.response.ApiResponse;
 import com.team10.backoffice.jwt.JwtUtil;
@@ -28,7 +29,7 @@ import java.net.URLEncoder;
 public class UserController {
     private final UserService userService;
     //private final EmailService emailService;
-    //private final KakaoService kakaoService;
+    private final KakaoService kakaoService;
 
 	@PostMapping("/auth/signup")
 	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@RequestBody UserRequestDto userRequestDto) {
@@ -46,8 +47,7 @@ public class UserController {
 
 	@GetMapping("/users/kakao/callback")
 	public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
-		//String token = kakaoService.kakaoLogin( code );
-		String token = "";
+		String token = kakaoService.kakaoLogin( code );
 
 		token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
 		Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token);
