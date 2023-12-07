@@ -12,5 +12,9 @@ public class SampleController {
     public String login() {
         return "member/login";
     }
+    @GetMapping("/")
+    public String mainPage() {
+        return "index";
+    }
 
 }
