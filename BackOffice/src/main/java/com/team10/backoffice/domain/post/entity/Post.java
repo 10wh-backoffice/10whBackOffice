@@ -2,10 +2,14 @@ package com.team10.backoffice.domain.post.entity;
 
 import com.team10.backoffice.domain.post.Timestamped;
 import com.team10.backoffice.domain.post.dto.PostRequestDto;
+import com.team10.backoffice.domain.users.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Getter
 @Entity(name = "post")
@@ -23,13 +27,21 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String content;
 
-    public Post(PostRequestDto postRequestDto) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public Post(PostRequestDto postRequestDto, User user) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
+        this.user = user;
     }
 
     public void update(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
     }
+
+
+
 }
