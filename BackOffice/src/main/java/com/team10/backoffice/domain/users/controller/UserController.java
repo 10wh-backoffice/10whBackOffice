@@ -88,7 +88,7 @@ public class UserController {
 
 
 	@PatchMapping("/users")
-	public ResponseEntity<ApiResponse<?>> updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserRequestDto userRequestDto) {
+	public ResponseEntity<ApiResponse<?>> updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,@Valid @RequestBody UserRequestDto userRequestDto) {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updateUser(userId, userRequestDto);
 
