@@ -24,6 +24,10 @@ public class UserService {
 	@Transactional
 	public void signup( UserRequestDto userRequestDto ) {
 
+		if (userRepository.existsByUsernameOrEmailOrNickname(userRequestDto.getUsername(), userRequestDto.getEmail(), userRequestDto.getNickname())) {
+			throw new DuplicateKeyException("이미 회원가입된 사용자입니다");
+		}
+
 		String password = passwordEncoder.encode( userRequestDto.getPassword() );
 
 		User user = new User();
