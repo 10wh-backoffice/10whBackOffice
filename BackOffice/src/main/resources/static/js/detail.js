@@ -16,7 +16,7 @@ const commentGetUrl = `http://localhost:8080/api/posts/${postId}/comments`;
 sendAjax(postGetUrl);
 axios.get(commentGetUrl).then(function (response) {
     let data = response.data.responseBody.data;
-
+    console.log(data);
     makeCommentTemplate(data);
 });
 
@@ -24,7 +24,6 @@ function sendAjax(url) {
     const oReq = new XMLHttpRequest();
 
     oReq.addEventListener("load", function () {
-        console.log(oReq.responseText);
         makeTemplate(JSON.parse(oReq.responseText));
     });
     oReq.open("GET", url);

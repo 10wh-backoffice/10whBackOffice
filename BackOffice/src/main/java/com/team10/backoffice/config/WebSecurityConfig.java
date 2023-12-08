@@ -4,6 +4,7 @@ import com.team10.backoffice.jwt.JwtAuthenticationFilter;
 import com.team10.backoffice.jwt.JwtAuthorizationFilter;
 import com.team10.backoffice.jwt.JwtUtil;
 import com.team10.backoffice.security.UserDetailsServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -68,13 +69,26 @@ public class WebSecurityConfig {
 //                        .requestMatchers( "/v3/api-docs/**" ).permitAll()
 //                        .anyRequest().authenticated() // 그 외 모든 요청 인증처리
 //        );
-//
-//        http.formLogin(form -> form
-//                .loginPage("/member/login")
-//        );
 
-//        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-//        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.formLogin(form -> form
+                .loginPage("/member/login")
+        );
+
+        http
+                // 로그아웃 설정
+                .logout(logout -> logout
+                        // 로그아웃 요청을 처리할 URL 설정
+                        .logoutUrl("/logout")
+                        // 로그아웃 성공 시 리다이렉트할 URL 설정
+                        // 로그아웃 성공 핸들러 추가 (리다이렉션 처리)
+                        .logoutSuccessHandler((request, response, authentication) ->
+                                response.sendRedirect("/"))
+                        // 로그아웃 시 쿠키 삭제 설정
+                        .deleteCookies("Authorization")
+                );
+
+        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

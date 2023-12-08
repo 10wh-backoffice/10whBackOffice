@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,13 +26,16 @@
 <header>
   <div class="inner">
     <a href="/" class="logo">
-      <img src="./images/스프링르탄이 복사본.png" alt="LOGO">
+      <img src="/images/스프링르탄이 복사본.png" alt="LOGO">
     </a>
 
     <div class="main-menu">
       <ul class="menu">
         <li>
-          <a href="/member/login">Sign In</a>
+          <a sec:authorize="isAuthenticated()"  href="/logout">
+            Sign Out
+          </a>
+          <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
         </li>
         <li>
           <a href="/board">자유 게시판</a>

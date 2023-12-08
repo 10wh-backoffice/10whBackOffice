@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,13 +28,16 @@
 <header>
   <div class="inner">
     <a href="/" class="logo">
-      <img src="./images/스프링르탄이 복사본.png" alt="LOGO">
+      <img src="/images/스프링르탄이 복사본.png" alt="LOGO">
     </a>
 
     <div class="main-menu">
       <ul class="menu">
         <li>
-          <a href="/member/login">Sign In</a>
+          <a sec:authorize="isAuthenticated()"  href="/logout">
+            Sign Out
+          </a>
+          <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
         </li>
         <li>
           <a href="/board">자유 게시판</a>
@@ -51,7 +55,7 @@
 </header>
 
 <div class="title-section">
-  <h1 class="title">게시글 작성</h1>
+  <h1 class="title">게시글</h1>
 </div>
 
 <div class="content-section">
@@ -82,8 +86,8 @@
 
     </div>
 
-    <div class="comment-input">
-      <input type="text" class="comment-title" placeholder="닉네임" readonly>
+    <div sec:authorize="isAuthenticated()" class="comment-input">
+      <span sec:authentication="principal.username" class="comment-title"></span>
       <textarea class="comment-content" placeholder="내용"></textarea>
       <a href="javascript:void(0)" class="btn">작성하기</a>
     </div>

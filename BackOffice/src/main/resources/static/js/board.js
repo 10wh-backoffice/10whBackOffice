@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let data = response.data.responseBody.data;
     makeTemplate(data);
   }).catch(e => console.error(e));
-})
+});
 
 
 
