@@ -29,6 +29,7 @@ public class LikeService {
         if(like.isPresent()) {
             throw new IllegalArgumentException("이미 좋아요가 존재합니다.");
         }
+        post.addLike();
 
         return likeRepository.save(Like.builder().post(post).user(user).build()).getId();
     }
@@ -43,7 +44,7 @@ public class LikeService {
         if(!like.isPresent()) {
             throw new IllegalArgumentException("존재하지 않는 좋아요입니다.");
         }
-
+        post.disLike();
         likeRepository.deleteById(like.get().getId());
     }
 }

@@ -31,6 +31,7 @@ public class Post extends Timestamped {
 
     @Column(nullable = false)
     private LocalDateTime modifiedAt;
+    private Long likeCnt=0L;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -45,6 +46,14 @@ public class Post extends Timestamped {
     public void update(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.content = postRequestDto.getContent();
+    }
+
+    public void addLike() {
+        this.likeCnt++;
+    }
+
+    public void disLike() {
+        this.likeCnt--;
     }
 
 
