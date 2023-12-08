@@ -9,9 +9,11 @@ import com.team10.backoffice.domain.users.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -36,7 +38,13 @@ public class UserService {
 		user.setPassword( password );
 		user.setEmail( userRequestDto.getEmail() );
 		user.setIntroduction( userRequestDto.getIntroduction() );
-		user.setRole( UserRoleEnum.USER );
+		UserRoleEnum role = UserRoleEnum.USER;
+
+		if(userRequestDto.getRole().equals("admin")) {
+			role = UserRoleEnum.ADMIN;
+		}
+		user.setRole( role );
+
 
 		this.userRepository.save( user );
 	}
@@ -82,6 +90,19 @@ public class UserService {
 		}
 		user.setPassword(passwordEncoder.encode(userPasswordDto.getNewPassword()));
 		updateOldPasswords(user,userPasswordDto.getNewPassword());
+		this.userRepository.save(user);
+	}
+
+	@Transactional
+	public void deleteUser( long userId, User user ) {
+		User find_user = userRepository.findById(userId)
+				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
+
+		if( user.getRole() != UserRoleEnum.ADMIN ) {
+			throw new IllegalArgumentException( "유저 삭제 권한이 없습니다." );
+		}
+
+		userRepository.delete( find_user );
 	}
 
 	private boolean isPasswordInOldPasswords(User user, String newPassword) {

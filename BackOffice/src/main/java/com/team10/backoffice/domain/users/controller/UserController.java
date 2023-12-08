@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.team10.backoffice.domain.users.dto.UserPasswordDto;
 import com.team10.backoffice.domain.users.dto.UserRequestDto;
 import com.team10.backoffice.domain.users.dto.UserResponseDto;
+import com.team10.backoffice.domain.users.entity.User;
 import com.team10.backoffice.domain.users.service.KakaoService;
 import com.team10.backoffice.domain.users.service.UserService;
 import com.team10.backoffice.etc.response.ApiResponse;
@@ -33,9 +34,8 @@ public class UserController {
 
 	@PostMapping("/auth/signup")
 	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
-		//this.emailService.sendEmailAuth( userRequestDto );
 		this.userService.signup( userRequestDto );
-		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getEmail() + "으로 인증 메일을 발송하였습니다."));
+		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getUsername() + " 회원가입 성공!" ) );
 	}
 
 	@GetMapping("/auth/signup/email/{id}")
@@ -79,6 +79,16 @@ public class UserController {
 		return ResponseEntity.ok(ApiResponse.ok(userResponseDto));
 	}
 
+	@DeleteMapping( "/users/{userId}" )
+	public ResponseEntity< ApiResponse< ? > > deleteUser( @PathVariable long userId,
+	                                                      @AuthenticationPrincipal UserDetailsImpl userDetails )
+	{
+		User user = userDetails.getUser();
+		userService.deleteUser( userId, user );
+
+		return ResponseEntity.ok( ApiResponse.ok( "delete success" ) );
+	}
+
 	@GetMapping("/users/login-user")
 	public ResponseEntity<ApiResponse<?>> getLoginUser(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
 		var user = userDetailsImpl.getUser();
@@ -92,7 +102,7 @@ public class UserController {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updateUser(userId, userRequestDto);
 
-		return ResponseEntity.ok(ApiResponse.ok("update success"));
+		return ResponseEntity.ok(ApiResponse.ok("UPDATE SUCCESS"));
 	}
 
 
@@ -102,6 +112,6 @@ public class UserController {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updatePassword(userId, userPasswordDto);
 
-		return ResponseEntity.ok(ApiResponse.ok("update success"));
+		return ResponseEntity.ok(ApiResponse.ok("UPDATE SUCCESS"));
 	}
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&family=Nanum+Gothic:wght@400;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
     <link rel="icon" href="/favicon.png">
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/login.css">
@@ -29,7 +32,10 @@
         <div class="main-menu">
             <ul class="menu">
                 <li>
-                    <a href="/member/login">Sign In</a>
+                    <a sec:authorize="isAuthenticated()"  href="/user/logout">
+                        Sign Out
+                    </a>
+                    <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
                 </li>
                 <li>
                     <a href="/board">자유 게시판</a>
@@ -50,11 +56,11 @@
     <h1>로그인</h1>
     <div class="signin__card">
         <h2>
-            Welcom!
+            Welcome!
         </h2>
         <form action="">
-            <input type="text" placeholder="아이디를 입력하세요."/>
-            <input type="password" placeholder="비밀번호를 입력하세요"/>
+            <input class="username" type="text" placeholder="아이디를 입력하세요."/>
+            <input class="password" type="password" placeholder="비밀번호를 입력하세요"/>
             <input type="submit" value="로그인">
             <p>
 
@@ -66,6 +72,26 @@
         </div>
     </div>
 </section>
+<script>
+    async function call() {
+        const response = await axios.get("http://localhost:8080/api/posts");
+        return response.data
+    }
+    call()
+        .then(data => console.log(data))
+        .catch(e => console.log(e))
 
+    const loginBtn = document.querySelector(".login-btn");
+    loginBtn.addEventListener("click", function() {
+        const uVal = document.querySelector(".username").value;
+        const pVal = document.querySelector(".password").value;
+        const data = {username : uVal, password : pVal};
+
+        axios.post("http://localhost:8080/api/users", data);
+        window.location("http://localhost:8080/");
+    }, false);
+
+
+</script>
 </body>
 </html>

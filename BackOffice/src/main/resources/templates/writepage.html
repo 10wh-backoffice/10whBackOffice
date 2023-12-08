@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,25 +12,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&family=Nanum+Gothic:wght@400;700&display=swap"
         rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-  <link rel="icon" href="./favicon.png">
+  <link rel="icon" href="/favicon.png">
 
-  <script defer src="./js/common.js"></script>
+  <script defer src="/js/common.js"></script>
+  <script defer src="/js/write.js"></script>
 
-  <link rel="stylesheet" href="./css/common.css">
-  <link rel="stylesheet" href="./css/write.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/write.css">
 
 </head>
 <body>
 <header>
   <div class="inner">
     <a href="/" class="logo">
-      <img src="./images/스프링르탄이 복사본.png" alt="LOGO">
+      <img src="/images/스프링르탄이 복사본.png" alt="LOGO">
     </a>
 
     <div class="main-menu">
       <ul class="menu">
         <li>
-          <a href="/member/login">Sign In</a>
+          <a sec:authorize="isAuthenticated()"  href="/logout">
+            Sign Out
+          </a>
+          <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
         </li>
         <li>
           <a href="/board">자유 게시판</a>
