@@ -62,4 +62,9 @@ public class PostService {
         return postRepository.findAllByUser(dbuser).stream().map(PostResponseDto::new).toList();
     }
 
+    public PostResponseDto findPost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시물입니다."));
+        PostResponseDto postResponseDto = new PostResponseDto(post);
+        return postResponseDto;
+    }
 }

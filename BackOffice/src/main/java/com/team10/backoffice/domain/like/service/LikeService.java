@@ -27,11 +27,23 @@ public class LikeService {
         Optional<Like> like = likeRepository.findByUserAndPost(user, post);
 
         if(like.isPresent()) {
-            likeRepository.deleteById(like.get().getId());
-        } else {
-            return likeRepository.save(Like.builder().post(post).user(user).build()).getId();
+            throw new IllegalArgumentException("이미 좋아요가 존재합니다.");
         }
 
-        return null;
+        return likeRepository.save(Like.builder().post(post).user(user).build()).getId();
+    }
+
+    public void dislike(Long postId, Long userId) {
+
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NullPointerException("게시물이 존재하지 않습니다."));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("유저가 존재하지 않습니다."));
+
+        Optional<Like> like = likeRepository.findByUserAndPost(user, post);
+
+        if(!like.isPresent()) {
+            throw new IllegalArgumentException("존재하지 않는 좋아요입니다.");
+        }
+
+        likeRepository.deleteById(like.get().getId());
     }
 }

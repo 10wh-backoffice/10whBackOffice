@@ -35,12 +35,18 @@ public class PostController {
         return ResponseEntity.ok(ApiResponse.ok("SUCCESS_DELETE_POST"));
     }
 
+    @GetMapping("/posts/{id}") // 게시글 조회
+    public ResponseEntity<ApiResponse> getPost(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.ok(postService.findPost(id)));
+    }
+
+
     @GetMapping("/posts") // 게시글 전체 조회
     public ResponseEntity<ApiResponse> getPosts() {
         return ResponseEntity.ok(ApiResponse.ok(postService.getPosts()));
     }
 
-    @GetMapping("/myposts") // 내가 작성한 게시글
+    @GetMapping("/posts/myposts") // 내가 작성한 게시글
     public ResponseEntity<ApiResponse> getMyPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(ApiResponse.ok(postService.getMyPosts(userDetails.getUser())));
     }
