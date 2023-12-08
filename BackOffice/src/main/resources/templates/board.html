@@ -13,6 +13,7 @@
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script defer src="/js/common.js"></script>
   <script defer src="/js/board.js"></script>
 
@@ -56,13 +57,6 @@
   <div class="content-section">
     <div class="inner">
       <div class="content-box">
-        <div class="content-each">
-          <div class="text board-number">
-            <a href="/detail">1</a>
-          </div>
-          <span class="text board-title">test</span>
-          <time class="text created-date">2023.12.7</time>    
-        </div>
 
       </div>
 
@@ -71,7 +65,7 @@
   </div>
   <script type="myTemplate" id="content-template">
     <div class="content-each">
-      <div class="board-number"><a href="/detail?id=1">{{boardId}}</a></div>
+      <div class="board-number"><a href="/detail?id={{id}}">{{id}}</a></div>
       <span class="board-title">{{title}}</span>
       <time class="created-date">{{createdAt}}</time>    
     </div>
