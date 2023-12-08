@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,7 +32,10 @@
         <div class="main-menu">
             <ul class="menu">
                 <li>
-                    <a href="/member/login">Sign In</a>
+                    <a sec:authorize="isAuthenticated()"  href="/user/logout">
+                        Sign Out
+                    </a>
+                    <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
                 </li>
                 <li>
                     <a href="/board">자유 게시판</a>
@@ -52,12 +56,12 @@
     <h1>로그인</h1>
     <div class="signin__card">
         <h2>
-            Welcom!
+            Welcome!
         </h2>
         <form action="">
             <input class="username" type="text" placeholder="아이디를 입력하세요."/>
             <input class="password" type="password" placeholder="비밀번호를 입력하세요"/>
-            <button class="login-btn"></button>
+            <input type="submit" value="로그인">
             <p>
 
             </p>
