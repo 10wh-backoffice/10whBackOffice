@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class PostResponseDto {
     private Long id;
-    private String nickname;
+    private String nickName;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String title;
@@ -24,7 +24,7 @@ public class PostResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.content = post.getContent();
-        this.nickname = post.getUser().getNickname();
+        this.nickName = post.getUser().getNickName();
     }
 
 }
