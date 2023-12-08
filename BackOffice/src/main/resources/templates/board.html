@@ -33,9 +33,10 @@
     <div class="main-menu">
       <ul class="menu">
         <li>
-          <a sec:authorize="isAuthenticated()"  href="/logout">
-            Sign Out
-          </a>
+          <a sec:authorize="isAuthenticated()" href="/write">글쓰기</a>
+        </li>
+        <li>
+          <a sec:authorize="isAuthenticated()" href="/logout">Sign Out</a>
           <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
         </li>
         <li>
@@ -46,17 +47,16 @@
         </li>
       </ul>
       <div class="search">
-        <input type="text" />
+        <input type="text"/>
         <div class="material-icons">search</div>
       </div>
     </div>
   </div>
 </header>
-  
+
   <div class="title-section">
     <h1 class="title">자유 게시판</h1>
   </div>
-  <a sec:authorize="isAuthenticated()" href="/write">새 글 쓰기</a>
 
   <div class="content-section">
     <div class="inner">

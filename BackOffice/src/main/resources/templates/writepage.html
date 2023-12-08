@@ -32,9 +32,10 @@
     <div class="main-menu">
       <ul class="menu">
         <li>
-          <a sec:authorize="isAuthenticated()"  href="/logout">
-            Sign Out
-          </a>
+          <a sec:authorize="isAuthenticated()" href="/write">새 글 쓰기</a>
+        </li>
+        <li>
+          <a sec:authorize="isAuthenticated()"  href="/logout">Sign Out</a>
           <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
         </li>
         <li>
