@@ -26,7 +26,7 @@ public class AdminService {
         user = checkUser(userId, user);
         AdminResponseDto adminResponseDto = new AdminResponseDto();
         adminResponseDto.setUsername(user.getUsername());
-        adminResponseDto.setNickname(user.getNickname());
+        adminResponseDto.setNickname(user.getNickName());
         adminResponseDto.setPassword(user.getPassword());
         adminResponseDto.setEmail(user.getEmail());
         adminResponseDto.setIntroduction(user.getIntroduction());
@@ -37,7 +37,7 @@ public class AdminService {
     @Transactional
     public void updateUser(long userId, User user, UserRequestDto userRequestDto) {
         user = checkUser(userId, user);
-        user.setNickname(userRequestDto.getNickname());
+        user.setNickName(userRequestDto.getNickname());
         user.setPassword(userRequestDto.getPassword());
         user.setIntroduction(userRequestDto.getIntroduction());
         user.setEmail(userRequestDto.getEmail());
