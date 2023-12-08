@@ -1,121 +1,79 @@
-/* COMMON */
-body {
-  color: #333;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.4;
-  font-family: 'Nanum Gothic', sans-serif;
-  height: 3000px;
-}
-img {
-  display: block;
-}
-a {
-  text-decoration: none;
+.signin {
+  /* margin-top: 120px; */
+  padding: 100px 0 150px;
+  /* width: 1400px; */
+  background-image: url(../images/coding-guide.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* background-size: contain; */
 }
 
-ul {
-  list-style-type: none;
+.signin h1 {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
 }
-.inner {
-  width: 1100px;
+
+.signin .signin__card {
+  width: 500px;
   margin: 0 auto;
-  position: relative;
+  border-radius: 6px;
+  background-color: #f6f5f0;
+  box-shadow: 2px 2px 20px rgba(0, 0, 0, .3);
+  color: #555;
 }
-
-/* HEADER */
-header {
+.signin__card h2{
+  padding: 30px;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+.signin__card form{
+  padding: 30px 22px;
+}
+.signin__card form input{
   width: 100%;
-  background-color: #fff;
-  border-bottom: 1px solid #c8c8c8;
-  position: fixed;
-  top: 0;
-  z-index: 9;
-}
-
-header .logo {
-  height: 75px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  margin: auto 0;
-}
-
-header>.inner {
-  height: 120px;
-  display: flex;
-}
-header .main-menu {
-  position: absolute;
-  top: 40px;
-  right: 0;
-  display: flex;
-}
-header .main-menu ul.menu {
-  font-family: Arial, sans-serif;
-  display: flex;
-}
-header .main-menu ul.menu li {
-  position: relative;
-}
-header .main-menu ul.menu li::before {
-  content: "";
-  width: 1px;
-  height: 12px;
-  background-color: #e5e5e5;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  margin: auto 0;
-}
-header .main-menu ul.menu li:first-child::before {
-  display: none;
-}
-
-header .main-menu ul.menu li a {
-  padding: 11px 16px;
-  font-size: 20px;
-  display: block;
-  color: #656565;
-}
-
-header .main-menu ul.menu li a:hover {
-  color: #000;
-}
-header .main-menu .search {
-  height: 34px;
-  position: relative;
-}
-
-header .main-menu .search input {
-  width: 36px;
-  height: 34px;
-  padding: 4px 10px;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  border-radius: 5px;
+  margin-bottom: 12px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
   outline: none;
-  background-color: #fff;
-  color: #777;
-  transition: width .4s;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.signin__card form [type="submit"]{
+  background-color: red;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.signin__card form p{
+  font-size: 12px;
+  color: #006633;
+  text-align: center;
+}
+.signin__card .actions {
+  display: flex;
+  border-top: 1px solid #ddd;
 }
 
-header .main-menu .search input:focus {
-  width: 198px;
-  border-color: #669900;
+.signin__card .actions a{
+  flex-grow: 1;
+  flex-basis: 0;
+  text-align: center;
+  padding: 20px;
+  color: #555;
+  font-size: 14px;
+  border-right: 1px solid #ddd;
+  margin-bottom: 10px;
 }
-
-header .main-menu .search .material-icons {
-  height: 24px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 5px;
-  margin: auto 0;
-  transition: .4s;
+.signin__card .actions a:last-child{
+  border-right: none;
 }
-
-header .main-menu .search.focused .material-icons {
-  opacity: 0;
+.signin__card .actions a:hover{
+  text-decoration: underline;
 }

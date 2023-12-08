@@ -1,6 +1,6 @@
 function sendAjax(url) {
   const oReq = new XMLHttpRequest();
-  oReq.onreadystatechange()
+  // oReq.onreadystatechange()
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -15,7 +15,7 @@ PageLoader.prototype.onLoadPage = function() {
 
 }
 // let template = document.getElementById("ticket_box").innerText;
-// let bindTemplate = Handlebars.compile(template);  //bindTemplate은 메서드입니다
+// let bindTemplate = Handlebars.compile(template);
 
 // let innerHtml = data.reduce(function (prve, next) {
 //     next.price = Number(next.price).toLocaleString();

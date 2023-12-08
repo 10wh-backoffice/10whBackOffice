@@ -10,7 +10,7 @@ public class SampleController {
 
     @GetMapping("/member/login")
     public String login() {
-        return "member/login";
+        return "login";
     }
     @GetMapping("/")
     public String mainPage() {

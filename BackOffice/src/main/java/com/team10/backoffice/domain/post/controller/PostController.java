@@ -49,9 +49,4 @@ public class PostController {
     public List<PostResponseDto> getMyPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return postService.getMyPosts(userDetails.getUser());
     }
-
-
-
-
-
 }
