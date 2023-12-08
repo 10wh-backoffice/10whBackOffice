@@ -7,11 +7,9 @@ import com.team10.backoffice.domain.post.repository.PostRepository;
 import com.team10.backoffice.domain.users.entity.User;
 import com.team10.backoffice.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.DuplicateFormatFlagsException;
 import java.util.List;
 
 @Service
@@ -64,4 +62,9 @@ public class PostService {
         return postRepository.findAllByUser(dbuser).stream().map(PostResponseDto::new).toList();
     }
 
+    public PostResponseDto findPost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시물입니다."));
+        PostResponseDto postResponseDto = new PostResponseDto(post);
+        return postResponseDto;
+    }
 }
