@@ -1,51 +1,12 @@
-function sendAjax(url) {
-  const oReq = new XMLHttpRequest();
-  // oReq.onreadystatechange()
-}
-
 document.addEventListener("DOMContentLoaded", function() {
-
-});
-
-function PageLoader() {
-
-}
-PageLoader.prototype.onLoadPage = function() {
-
-
-}
-// let template = document.getElementById("ticket_box").innerText;
-// let bindTemplate = Handlebars.compile(template);
-
-// let innerHtml = data.reduce(function (prve, next) {
-//     next.price = Number(next.price).toLocaleString();
-//     return prve + bindTemplate(next);
-// }, "");
-
-// let ticket_body = document.querySelector(".ticket_body");
-// ticket_body.innerHTML = innerHtml;
-
-let data = [
-  {
-  "boardId" : "1",
-  "title" : "test1",
-  "createdAt": "2022.22.22"
-},
-{
-  "boardId" : "2",
-  "title" : "test2",
-  "createdAt": "2022.22.22"
-},
-{
-  "boardId" : "3",
-  "title" : "test3",
-  "createdAt": "2022.22.22"
-}
-
-]
+  let url = "http://localhost:8080/api/posts";
+  axios.get(url).then(function(response) {
+    let data = response.data.responseBody.data;
+    makeTemplate(data);
+  }).catch(e => console.error(e));
+})
 
 
-makeTemplate(data);
 
 function makeTemplate(data) {
   console.log(data);
