@@ -36,7 +36,13 @@ public class UserService {
 		user.setPassword( password );
 		user.setEmail( userRequestDto.getEmail() );
 		user.setIntroduction( userRequestDto.getIntroduction() );
-		user.setRole( UserRoleEnum.USER );
+		UserRoleEnum role = UserRoleEnum.USER;
+
+		if(userRequestDto.getRole().equals("admin")) {
+			role = UserRoleEnum.ADMIN;
+		}
+		user.setRole( role );
+
 
 		this.userRepository.save( user );
 	}
