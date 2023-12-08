@@ -65,7 +65,7 @@ public class PostService {
 
     public List<PostResponseDto> getMyPosts(User user) {
         User dbuser = userRepository.findById(user.getId()).orElseThrow(()
-                -> new IllegalArgumentException("게시글을 작성한 사용자가 아닙니다.")
+                -> new IllegalArgumentException("유저 정보를 찾을 수 없습니다.")
         );
 
         return postRepository.findAllByUser(dbuser).stream().map(PostResponseDto::new).toList();
