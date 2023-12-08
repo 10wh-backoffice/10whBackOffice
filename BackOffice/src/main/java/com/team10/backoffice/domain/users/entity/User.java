@@ -21,6 +21,7 @@ public class User {
 	private String nickName;
 	private String email;
 	private String introduction;
+	private boolean blocked;
 
 	@ElementCollection
 	@CollectionTable(name = "oldPasswords", joinColumns = @JoinColumn(name = "user_id"))
@@ -43,5 +44,9 @@ public class User {
 		this.kakaoId = kakaoId;
 
 		return this;
+	}
+
+	public boolean isBlocked() {
+		return blocked;
 	}
 }

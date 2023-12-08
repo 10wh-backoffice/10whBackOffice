@@ -102,7 +102,7 @@ public class UserController {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updateUser(userId, userRequestDto);
 
-		return ResponseEntity.ok(ApiResponse.ok("update success"));
+		return ResponseEntity.ok(ApiResponse.ok("UPDATE SUCCESS"));
 	}
 
 
@@ -112,6 +112,6 @@ public class UserController {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updatePassword(userId, userPasswordDto);
 
-		return ResponseEntity.ok(ApiResponse.ok("update success"));
+		return ResponseEntity.ok(ApiResponse.ok("UPDATE SUCCESS"));
 	}
 }
