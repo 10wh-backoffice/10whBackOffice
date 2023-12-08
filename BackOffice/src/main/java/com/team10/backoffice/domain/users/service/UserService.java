@@ -88,6 +88,7 @@ public class UserService {
 		}
 		user.setPassword(passwordEncoder.encode(userPasswordDto.getNewPassword()));
 		updateOldPasswords(user,userPasswordDto.getNewPassword());
+		this.userRepository.save(user);
 	}
 
 	private boolean isPasswordInOldPasswords(User user, String newPassword) {
