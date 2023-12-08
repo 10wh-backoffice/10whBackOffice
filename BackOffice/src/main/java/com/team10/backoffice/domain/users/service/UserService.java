@@ -24,7 +24,7 @@ public class UserService {
 	@Transactional
 	public void signup( UserRequestDto userRequestDto ) {
 
-		if (userRepository.existsByUsernameOrEmailOrNickname(userRequestDto.getUsername(), userRequestDto.getEmail(), userRequestDto.getNickname())) {
+		if (userRepository.existsByUsernameOrEmailOrNickName(userRequestDto.getUsername(), userRequestDto.getEmail(), userRequestDto.getNickname())) {
 			throw new DuplicateKeyException("이미 회원가입된 사용자입니다");
 		}
 
@@ -32,7 +32,7 @@ public class UserService {
 
 		User user = new User();
 		user.setUsername( userRequestDto.getUsername() );
-		user.setNickname( userRequestDto.getNickname() );
+		user.setNickName( userRequestDto.getNickname() );
 		user.setPassword( password );
 		user.setEmail( userRequestDto.getEmail() );
 		user.setIntroduction( userRequestDto.getIntroduction() );
@@ -47,7 +47,7 @@ public class UserService {
 
 		UserResponseDto userResponseDto = new UserResponseDto();
 		userResponseDto.setUsername(user.getUsername());
-		userResponseDto.setNickname(user.getNickname());
+		userResponseDto.setNickname(user.getNickName());
 		userResponseDto.setEmail(user.getEmail());
 		userResponseDto.setIntroduction(user.getIntroduction());
 
@@ -59,7 +59,7 @@ public class UserService {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
 
-		user.setNickname(userRequestDto.getNickname());
+		user.setNickName(userRequestDto.getNickname());
 		user.setIntroduction(userRequestDto.getIntroduction());
 		user.setEmail(userRequestDto.getEmail());
 	}
