@@ -59,12 +59,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        log.info("로그인 성공 및 JWT 생성");
-        long userId = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getId();
-        UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
+      log.info("로그인 성공 및 JWT 생성");
+      String username = (( UserDetailsImpl ) authResult.getPrincipal()).getUser().getUsername();
+      UserRoleEnum role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getRole();
 
-        String token = jwtUtil.createToken(userId, role);
-        jwtUtil.addJwtToCookie(token, response);
+      String token = jwtUtil.createToken(username, role);
+      jwtUtil.addJwtToCookie(token, response);
     }
 
     @Override

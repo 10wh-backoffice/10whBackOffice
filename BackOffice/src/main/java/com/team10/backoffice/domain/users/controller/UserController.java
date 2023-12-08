@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.team10.backoffice.domain.users.dto.UserPasswordDto;
 import com.team10.backoffice.domain.users.dto.UserRequestDto;
 import com.team10.backoffice.domain.users.dto.UserResponseDto;
+import com.team10.backoffice.domain.users.entity.User;
+import com.team10.backoffice.domain.users.service.KakaoService;
 import com.team10.backoffice.domain.users.service.UserService;
 import com.team10.backoffice.etc.response.ApiResponse;
 import com.team10.backoffice.jwt.JwtUtil;
@@ -28,13 +30,12 @@ import java.net.URLEncoder;
 public class UserController {
     private final UserService userService;
     //private final EmailService emailService;
-    //private final KakaoService kakaoService;
+    private final KakaoService kakaoService;
 
 	@PostMapping("/auth/signup")
 	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
-		//this.emailService.sendEmailAuth( userRequestDto );
 		this.userService.signup( userRequestDto );
-		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getEmail() + "으로 인증 메일을 발송하였습니다."));
+		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getUsername() + " 회원가입 성공!" ) );
 	}
 
 	@GetMapping("/auth/signup/email/{id}")
@@ -46,8 +47,7 @@ public class UserController {
 
 	@GetMapping("/users/kakao/callback")
 	public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
-		//String token = kakaoService.kakaoLogin( code );
-		String token = "";
+		String token = kakaoService.kakaoLogin( code );
 
 		token = URLEncoder.encode(token, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
 		Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, token);
@@ -77,6 +77,16 @@ public class UserController {
 		var userResponseDto = this.userService.getUser(userId);
 
 		return ResponseEntity.ok(ApiResponse.ok(userResponseDto));
+	}
+
+	@DeleteMapping( "/users/{userId}" )
+	public ResponseEntity< ApiResponse< ? > > deleteUser( @PathVariable long userId,
+	                                                      @AuthenticationPrincipal UserDetailsImpl userDetails )
+	{
+		User user = userDetails.getUser();
+		userService.deleteUser( userId, user );
+
+		return ResponseEntity.ok( ApiResponse.ok( "delete success" ) );
 	}
 
 	@GetMapping("/users/login-user")

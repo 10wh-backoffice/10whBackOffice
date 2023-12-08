@@ -17,8 +17,8 @@ public class User {
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private long id;
 	private String username;
-	private String nickname;
 	private String password;
+	private String nickName;
 	private String email;
 	private String introduction;
 	private boolean blocked;
@@ -32,9 +32,8 @@ public class User {
 
 	private Long kakaoId;
 
-	public User( String username, String nickname, String encodePassword, String email, UserRoleEnum userRoleEnum, Long kakaoId ) {
+	public User( String username, String encodePassword, String email, UserRoleEnum userRoleEnum, Long kakaoId ) {
 		this.username = username;
-		this.nickname = nickname;
 		this.password = encodePassword;
 		this.email = email;
 		this.role = userRoleEnum;

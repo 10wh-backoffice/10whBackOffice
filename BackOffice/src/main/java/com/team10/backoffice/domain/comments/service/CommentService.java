@@ -10,10 +10,12 @@ import com.team10.backoffice.domain.comments.repository.CommentRepository;
 import com.team10.backoffice.domain.post.entity.Post;
 import com.team10.backoffice.domain.post.repository.PostRepository;
 import com.team10.backoffice.domain.users.entity.User;
+import com.team10.backoffice.domain.users.entity.UserRoleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.WriteAbortedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,7 +26,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final PostRepository postRepository;
     private final CommentLikeRepository commentLikeRepository;
-    //private final CommentQueryRepository commentQueryRepository;
 
     public List<CommentResponseDto> getComment( Long postId ) {
         List<Comment> comments = commentRepository.findAllByPost_Id(postId);
@@ -53,21 +54,6 @@ public class CommentService {
         return CommentResponseDto.commentResponseDtoBuilder()
                 .comment( comment )
                 .build();
-
-//        List<CommentQueryResponse> res = commentQueryRepository.getCommentDetail(userId, postId);
-//
-//        List<CommentLike> commentLikes = commentLikeRepository.findAll();
-//        if (commentLikes.isEmpty()) {
-//            return CommentResponseDto.commentNoResponseDtoBuilder()
-//                    .comment(comment)
-//                    .build();
-//        }
-//        else{
-//            return CommentResponseDto.commentResponseDtoBuilder()
-//                    .res(res.get(0))
-//                    .likeCount(res.size())
-//                    .build();
-//        }
     }
 
     @Transactional
@@ -83,42 +69,38 @@ public class CommentService {
                 .build());
     }
 
-//    @Transactional
-//    public Comment createReply(User user, Long postId, Long parentCommentId, CommentRequestDto requestDto) {
-//        Post post = postRepository.findById(postId).orElseThrow(() ->
-//                new NullPointerException("해당 게시글을 찾을 수 없습니다.")
-//        );
-//        Comment parentComment = commentRepository.findById(parentCommentId)
-//                .orElseThrow(NoSuchElementException::new);
-//
-//        return commentRepository.save(Comment.replyBuilder()
-//                .user(user)
-//                .requestDto(requestDto)
-//                .post(parentComment.getPost())
-//                .parentCommentId(parentCommentId)
-//                .depth(parentComment.getDepth())
-//                .build());
-//    }
-
     @Transactional
-    public Comment updateComment(Long commentId, CommentRequestDto requestDto) {
+    public Comment updateComment( Long commentId, CommentRequestDto requestDto, User user ) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new NullPointerException("해당 댓글을 찾을 수 없습니다.")
         );
+
+        if( user.getRole() != UserRoleEnum.ADMIN ) {
+            if( comment.getWriterId() != user.getId() ) {
+                throw new IllegalArgumentException( "작성자가 아니면 수정 할 수 없습니다." );
+            }
+        }
 
         return comment.update(requestDto);
     }
 
     @Transactional
-    public Comment deleteComment(Long commentId) {
+    public Comment deleteComment( Long commentId, User user ) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() ->
                 new NullPointerException("해당 댓글을 찾을 수 없습니다.")
         );
+
+        if( user.getRole() != UserRoleEnum.ADMIN ) {
+            if( comment.getWriterId() != user.getId() ) {
+                throw new IllegalArgumentException( "작성자가 아니면 삭제 할 수 없습니다." );
+            }
+        }
+
         return comment.delete();
     }
 
     @Transactional
-    public CommentLike createCommentLike( User user, Long commentId) {
+    public CommentLike createCommentLike( User user, Long commentId ) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(NoSuchElementException::new);
 
@@ -138,6 +120,7 @@ public class CommentService {
                         .commentId(commentId)
                         .build()
         ).orElseThrow(NoSuchElementException::new);
+
         commentLikeRepository.delete(commentLike);
     }
 

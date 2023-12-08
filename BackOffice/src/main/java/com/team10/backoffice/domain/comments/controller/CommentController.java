@@ -44,15 +44,21 @@ public class CommentController {
     @PatchMapping("/{postId}/comments/{commentId}")
     public ResponseEntity<ApiResponse> updateComment(@PathVariable("postId") Long postId,
                                                      @PathVariable("commentId") Long commentId,
-                                                     @RequestBody CommentRequestDto requestDto) {
-        commentService.updateComment(commentId, requestDto);
+                                                     @RequestBody CommentRequestDto requestDto,
+                                                     @AuthenticationPrincipal UserDetailsImpl userDetails )
+    {
+        User user = userDetails.getUser();
+        commentService.updateComment( commentId, requestDto, user );
         return ResponseEntity.ok(ApiResponse.ok("댓글 번호 " + commentId + " 가 업데이트 되었습니다."));
     }
 
     @DeleteMapping("/{postId}/comments/{commentId}")
     public ResponseEntity<ApiResponse> deleteComment(@PathVariable("postId") Long postId,
-                                                     @PathVariable("commentId") Long commentId) {
-        commentService.deleteComment(commentId);
+                                                     @PathVariable("commentId") Long commentId,
+                                                     @AuthenticationPrincipal UserDetailsImpl userDetails )
+    {
+        User user = userDetails.getUser();
+        commentService.deleteComment( commentId, user );
         return ResponseEntity.ok(ApiResponse.ok("댓글 번호 " + commentId + " 가 삭제 되었습니다."));
     }
 

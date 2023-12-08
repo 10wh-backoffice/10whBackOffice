@@ -1,15 +1,12 @@
 package com.team10.backoffice.domain.post.entity;
 
-import com.team10.backoffice.domain.post.Timestamped;
+import com.team10.backoffice.domain.etc.Timestamped;
 import com.team10.backoffice.domain.post.dto.PostRequestDto;
 import com.team10.backoffice.domain.users.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Getter
 @Entity(name = "post")

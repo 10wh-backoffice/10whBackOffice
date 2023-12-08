@@ -1,4 +1,4 @@
-package com.team10.backoffice.domain.post;
+package com.team10.backoffice.domain.etc;
 
 import jakarta.persistence.*;
 import lombok.Getter;

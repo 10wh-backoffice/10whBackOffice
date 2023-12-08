@@ -9,9 +9,11 @@ import com.team10.backoffice.domain.users.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,7 +26,7 @@ public class UserService {
 	@Transactional
 	public void signup( UserRequestDto userRequestDto ) {
 
-		if (userRepository.existsByUsernameOrEmailOrNickname(userRequestDto.getUsername(), userRequestDto.getEmail(), userRequestDto.getNickname())) {
+		if (userRepository.existsByUsernameOrEmailOrNickName(userRequestDto.getUsername(), userRequestDto.getEmail(), userRequestDto.getNickname())) {
 			throw new DuplicateKeyException("이미 회원가입된 사용자입니다");
 		}
 
@@ -32,7 +34,7 @@ public class UserService {
 
 		User user = new User();
 		user.setUsername( userRequestDto.getUsername() );
-		user.setNickname( userRequestDto.getNickname() );
+		user.setNickName( userRequestDto.getNickname() );
 		user.setPassword( password );
 		user.setEmail( userRequestDto.getEmail() );
 		user.setIntroduction( userRequestDto.getIntroduction() );
@@ -53,7 +55,7 @@ public class UserService {
 
 		UserResponseDto userResponseDto = new UserResponseDto();
 		userResponseDto.setUsername(user.getUsername());
-		userResponseDto.setNickname(user.getNickname());
+		userResponseDto.setNickname(user.getNickName());
 		userResponseDto.setEmail(user.getEmail());
 		userResponseDto.setIntroduction(user.getIntroduction());
 
@@ -65,7 +67,7 @@ public class UserService {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
 
-		user.setNickname(userRequestDto.getNickname());
+		user.setNickName(userRequestDto.getNickname());
 		user.setIntroduction(userRequestDto.getIntroduction());
 		user.setEmail(userRequestDto.getEmail());
 	}
@@ -89,6 +91,18 @@ public class UserService {
 		user.setPassword(passwordEncoder.encode(userPasswordDto.getNewPassword()));
 		updateOldPasswords(user,userPasswordDto.getNewPassword());
 		this.userRepository.save(user);
+	}
+
+	@Transactional
+	public void deleteUser( long userId, User user ) {
+		User find_user = userRepository.findById(userId)
+				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
+
+		if( user.getRole() != UserRoleEnum.ADMIN ) {
+			throw new IllegalArgumentException( "유저 삭제 권한이 없습니다." );
+		}
+
+		userRepository.delete( find_user );
 	}
 
 	private boolean isPasswordInOldPasswords(User user, String newPassword) {

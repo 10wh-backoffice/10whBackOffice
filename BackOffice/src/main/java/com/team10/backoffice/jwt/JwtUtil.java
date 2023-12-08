@@ -17,8 +17,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.Key;
+import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtUtil {
@@ -26,11 +29,11 @@ public class JwtUtil {
 	public static final String AUTHORIZATION_HEADER = "Authorization";
 	// 사용자 권한 값의 KEY
 	public static final String AUTHORIZATION_KEY = "auth";
-	public static final String CLAIM_USER_ID = "userId";
+	public static final String CLAIM_USER_NAME = "username";
 	// Token 식별자
 	public static final String BEARER_PREFIX = "Bearer ";
 	// 토큰 만료시간
-	private final long TOKEN_TIME = 60 * 60 * 1000L; // 60분
+	private final int TOKEN_TIME = 60; // 60분
 
 	@Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
 	private String secretKey;
@@ -47,15 +50,20 @@ public class JwtUtil {
 	}
 
 	// 토큰 생성
-	public String createToken( long userId, UserRoleEnum role) {
+	public String createToken(String username, UserRoleEnum role) {
 		Date date = new Date();
+
+		Map<String, Object> headers = new HashMap<>();
+		headers.put("typ", "JWT");
+		headers.put("alg", "HS256");
 
 		return BEARER_PREFIX +
 				Jwts.builder()
-						.claim( CLAIM_USER_ID, userId )
+						.setHeader(headers)
+						.claim( CLAIM_USER_NAME, username )
 						.claim( AUTHORIZATION_KEY, role ) // 사용자 권한
-						.setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
-						.setIssuedAt(date) // 발급일
+						.setIssuedAt(Date.from(ZonedDateTime.now().toInstant())) // 발급일
+						.setExpiration(Date.from(ZonedDateTime.now().plusMinutes(TOKEN_TIME).toInstant())) // 만료 시간
 						.signWith(key, signatureAlgorithm) // 암호화 알고리즘
 						.compact();
 	}
