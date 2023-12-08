@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.team10.backoffice.domain.users.dto.UserPasswordDto;
 import com.team10.backoffice.domain.users.dto.UserRequestDto;
 import com.team10.backoffice.domain.users.dto.UserResponseDto;
+import com.team10.backoffice.domain.users.entity.User;
 import com.team10.backoffice.domain.users.service.KakaoService;
 import com.team10.backoffice.domain.users.service.UserService;
 import com.team10.backoffice.etc.response.ApiResponse;
@@ -76,6 +77,16 @@ public class UserController {
 		var userResponseDto = this.userService.getUser(userId);
 
 		return ResponseEntity.ok(ApiResponse.ok(userResponseDto));
+	}
+
+	@DeleteMapping( "/users/{userId}" )
+	public ResponseEntity< ApiResponse< ? > > deleteUser( @PathVariable long userId,
+	                                                      @AuthenticationPrincipal UserDetailsImpl userDetails )
+	{
+		User user = userDetails.getUser();
+		userService.deleteUser( userId, user );
+
+		return ResponseEntity.ok( ApiResponse.ok( "delete success" ) );
 	}
 
 	@GetMapping("/users/login-user")
