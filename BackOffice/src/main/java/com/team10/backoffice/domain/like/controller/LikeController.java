@@ -18,7 +18,7 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @PostMapping("/like/{id}")
+    @PostMapping("/likes/{id}")
     public ResponseEntity<ApiResponse> like(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails){
         if(likeService.like(id, userDetails.getUser().getId()) != null){
             return ResponseEntity.ok(ApiResponse.ok("SUCCESS_ADD_LIKE"));
