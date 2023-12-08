@@ -48,7 +48,7 @@ public class PostService {
                 () -> new NullPointerException("게시글이 존재하지 않습니다.")
         );
 
-        if( user.getRole() != UserRoleEnum.USER ) {
+        if( user.getRole() != UserRoleEnum.ADMIN ) {
             if(!post.getUser().getUsername().equals(user.getUsername()))
             { // 사용자 검증
                 throw new IllegalArgumentException("게시글을 작성한 사용자가 아닙니다.");
