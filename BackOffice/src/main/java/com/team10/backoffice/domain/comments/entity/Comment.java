@@ -1,6 +1,7 @@
 package com.team10.backoffice.domain.comments.entity;
 
 import com.team10.backoffice.domain.comments.dto.CommentRequestDto;
+import com.team10.backoffice.domain.etc.Timestamped;
 import com.team10.backoffice.domain.post.entity.Post;
 import com.team10.backoffice.domain.users.entity.User;
 import jakarta.persistence.*;
@@ -14,9 +15,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode( callSuper = false )
 @Table(name = "comment")
-public class Comment {
+public class Comment extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
@@ -29,9 +30,6 @@ public class Comment {
 
     @Column(nullable = false)
     private String content;
-
-    @Column(nullable = false)
-    private LocalDateTime lastModifiedDate;
 
     @Column(nullable = true)
     private Long parentCommentId;
@@ -60,7 +58,6 @@ public class Comment {
         this.content = requestDto.getContent();
         this.post = post;
         this.depth = 1L;
-        this.lastModifiedDate = LocalDateTime.now();
         this.likeCount = 0;
         this.recentLikeUser = null;
         this.myLike = false;
@@ -74,7 +71,6 @@ public class Comment {
         this.post = post;
         this.parentCommentId = parentCommentId;
         this.depth = depth + 1;
-        this.lastModifiedDate = LocalDateTime.now();
     }
 
     public Comment update(CommentRequestDto requestDto) {

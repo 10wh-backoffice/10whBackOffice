@@ -1,14 +1,12 @@
 package com.team10.backoffice.domain.post.entity;
 
-import com.team10.backoffice.domain.post.Timestamped;
+import com.team10.backoffice.domain.etc.Timestamped;
 import com.team10.backoffice.domain.post.dto.PostRequestDto;
 import com.team10.backoffice.domain.users.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity(name = "post")
@@ -25,12 +23,6 @@ public class Post extends Timestamped {
 
     @Column(nullable = false)
     private String content;
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

@@ -5,6 +5,7 @@ import com.team10.backoffice.domain.post.dto.PostResponseDto;
 import com.team10.backoffice.domain.post.entity.Post;
 import com.team10.backoffice.domain.post.repository.PostRepository;
 import com.team10.backoffice.domain.users.entity.User;
+import com.team10.backoffice.domain.users.entity.UserRoleEnum;
 import com.team10.backoffice.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,12 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow( // 게시글 존재 여부 검증
                 () -> new NullPointerException("게시글이 존재하지 않습니다.")
         );
-        if (!post.getUser().getUsername().equals(user.getUsername())){ // 사용자 검증
-            throw new IllegalArgumentException("게시글을 작성한 사용자가 아닙니다.");
+
+        if( user.getRole() != UserRoleEnum.ADMIN ) {
+            if( !post.getUser().getUsername().equals(user.getUsername()))
+            { // 사용자 검증
+                throw new IllegalArgumentException("게시글을 작성한 사용자가 아닙니다.");
+            }
         }
 
         post.update(postRequestDto);
@@ -42,8 +47,12 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow( // 게시글 존재 여부 검증
                 () -> new NullPointerException("게시글이 존재하지 않습니다.")
         );
-        if (!post.getUser().getUsername().equals(user.getUsername())){ // 사용자 검증
-            throw new IllegalArgumentException("게시글을 작성한 사용자가 아닙니다.");
+
+        if( user.getRole() != UserRoleEnum.USER ) {
+            if(!post.getUser().getUsername().equals(user.getUsername()))
+            { // 사용자 검증
+                throw new IllegalArgumentException("게시글을 작성한 사용자가 아닙니다.");
+            }
         }
 
         postRepository.delete(post);
@@ -64,7 +73,6 @@ public class PostService {
 
     public PostResponseDto findPost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("존재하지 않는 게시물입니다."));
-        PostResponseDto postResponseDto = new PostResponseDto(post);
-        return postResponseDto;
+	    return new PostResponseDto(post);
     }
 }

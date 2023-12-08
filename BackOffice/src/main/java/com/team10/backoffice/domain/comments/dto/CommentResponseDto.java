@@ -1,5 +1,6 @@
 package com.team10.backoffice.domain.comments.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team10.backoffice.domain.comments.entity.Comment;
 import com.team10.backoffice.domain.users.entity.User;
 import lombok.Builder;
@@ -19,6 +20,8 @@ public class CommentResponseDto {
     private final int likeCount;
     private final String recentLikeUser;
     private final Boolean myLike;
+
+    @JsonFormat( pattern = "yyyy-MM-dd" )
     private final LocalDateTime lastModifiedDate;
 
 
@@ -53,6 +56,6 @@ public class CommentResponseDto {
         this.likeCount = likeCount;
         this.recentLikeUser = comment.getRecentLikeUser();
         this.myLike = comment.getMyLike();
-        this.lastModifiedDate = comment.getLastModifiedDate();
+        this.lastModifiedDate = comment.getModifiedAt();
     }
 }
