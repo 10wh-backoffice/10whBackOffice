@@ -32,7 +32,7 @@ public class UserController {
     private final KakaoService kakaoService;
 
 	@PostMapping("/auth/signup")
-	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@RequestBody UserRequestDto userRequestDto) {
+	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
 		//this.emailService.sendEmailAuth( userRequestDto );
 		this.userService.signup( userRequestDto );
 		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getEmail() + "으로 인증 메일을 발송하였습니다."));
@@ -88,7 +88,7 @@ public class UserController {
 
 
 	@PatchMapping("/users")
-	public ResponseEntity<ApiResponse<?>> updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, UserRequestDto userRequestDto) {
+	public ResponseEntity<ApiResponse<?>> updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,@Valid @RequestBody UserRequestDto userRequestDto) {
 		var userId = userDetailsImpl.getUser().getId();
 		userService.updateUser(userId, userRequestDto);
 

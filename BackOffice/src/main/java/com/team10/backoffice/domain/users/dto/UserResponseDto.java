@@ -13,12 +13,12 @@ public class UserResponseDto {
 	private String username;
 	private String nickname;
 	private String email;
-	private String introduce;
+	private String introduction;
 
 	@Builder
 	public UserResponseDto( User user ) {
 		this.username = user.getUsername();
 		this.email = user.getEmail();
-		this.introduce = user.getIntroduce();
+		this.introduction = user.getIntroduction();
 	}
 }

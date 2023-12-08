@@ -23,7 +23,7 @@ public class UserRequestDto {
 	private String email;
 
 	@Size(max = 255, message = "최대 255자까지 작성 가능합니다")
-	private String introduce;
+	private String introduction;
 
 	private String role;
 }
