@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Devlog</title>
+  <title>새 글 작성</title>
 
   <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,15 +12,14 @@
         rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
   <link rel="icon" href="./favicon.png">
-  <link rel="stylesheet" href="./css/common.css">
-  <link rel="stylesheet" href="./css/main.css">
 
   <script defer src="./js/common.js"></script>
-  <script defer src="./js/main.js"></script>
-</head>
 
+  <link rel="stylesheet" href="./css/common.css">
+  <link rel="stylesheet" href="./css/write.css">
+
+</head>
 <body>
-<!-- HEADER -->
 <header>
   <div class="inner">
     <a href="/" class="logo">
@@ -47,25 +46,18 @@
   </div>
 </header>
 
-<!-- BANNER -->
-<div class="visual">
-  <div class="inner">
-    <!-- <div class="fade-in">
-      <img src="./images/스프링르탄이 복사본.png" alt="new OATMEAL LATTE" class="rtan image1" />
-    </div>
-    <div class="fade-in">
-      <img src="./images/스프링르탄이 복사본.png" alt="new OATMEAL LATTE" class="rtan image2" />
-    </div> -->
-  </div>
+<div class="title-section">
+  <h1 class="title">새 글 작성</h1>
 </div>
 
-<!-- <div class="modal-wrap">
-  <div class="modal_close">
-    <a href="#">close</a>
+<div class="content-section">
+  <div class="inner">
+    <div class="write-box">
+      <input type="text" class="board-title" placeholder="제목">
+      <textarea class="board-content" placeholder="내용"></textarea>
+      <a href="javascript:void(0)" class="btn">작성하기</a>
+    </div>
   </div>
-  <div class="modal">
-    모달창내용
-  </div>
-</div> -->
+</div>
 </body>
 </html>

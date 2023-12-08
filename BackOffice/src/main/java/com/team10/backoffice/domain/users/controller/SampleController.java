@@ -10,11 +10,24 @@ public class SampleController {
 
     @GetMapping("/member/login")
     public String login() {
-        return "member/login";
+        return "login";
     }
     @GetMapping("/")
     public String mainPage() {
         return "index";
     }
+    @GetMapping("/board")
+    public String boardPage() {
+        return "board";
+    }
+    @GetMapping("/write")
+    public String write() {
+        return "writepage";
+    }
+    @GetMapping("/detail")
+    public String detail() {
+        return "detail";
+    }
+
 
 }

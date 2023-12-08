@@ -50,9 +50,4 @@ public class PostController {
     public ResponseEntity<ApiResponse> getMyPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(ApiResponse.ok(postService.getMyPosts(userDetails.getUser())));
     }
-
-
-
-
-
 }

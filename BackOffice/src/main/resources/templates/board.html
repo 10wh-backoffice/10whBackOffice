@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자유 게시판</title>
+  <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&family=Nanum+Gothic:wght@400;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js" integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script defer src="/js/common.js"></script>
+  <script defer src="/js/board.js"></script>
+
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/board.css">
+  <link rel="icon" href="/favicon.png">
+</head>
+<body>
+
+<header>
+  <div class="inner">
+    <a href="/" class="logo">
+      <img src="./images/스프링르탄이 복사본.png" alt="LOGO">
+    </a>
+
+    <div class="main-menu">
+      <ul class="menu">
+        <li>
+          <a href="/member/login">Sign In</a>
+        </li>
+        <li>
+          <a href="/board">자유 게시판</a>
+        </li>
+        <li>
+          <a href="javascript:void(0)">토론 게시판</a>
+        </li>
+      </ul>
+      <div class="search">
+        <input type="text" />
+        <div class="material-icons">search</div>
+      </div>
+    </div>
+  </div>
+</header>
+  
+  <div class="title-section">
+    <h1 class="title">자유 게시판</h1>
+  </div>
+  <a href="./write">새 글 쓰기</a>
+
+  <div class="content-section">
+    <div class="inner">
+      <div class="content-box">
+        <div class="content-each">
+          <div class="text board-number">
+            <a href="/detail">1</a>
+          </div>
+          <span class="text board-title">test</span>
+          <time class="text created-date">2023.12.7</time>    
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <script type="myTemplate" id="content-template">
+    <div class="content-each">
+      <div class="board-number"><a href="/detail?id=1">{{boardId}}</a></div>
+      <span class="board-title">{{title}}</span>
+      <time class="created-date">{{createdAt}}</time>    
+    </div>
+  </script>
+</body>
+</html>
