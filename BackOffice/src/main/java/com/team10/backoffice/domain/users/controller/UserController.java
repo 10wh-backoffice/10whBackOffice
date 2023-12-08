@@ -33,9 +33,8 @@ public class UserController {
 
 	@PostMapping("/auth/signup")
 	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
-		//this.emailService.sendEmailAuth( userRequestDto );
 		this.userService.signup( userRequestDto );
-		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getEmail() + "으로 인증 메일을 발송하였습니다."));
+		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getUsername() + " 회원가입 성공!" ) );
 	}
 
 	@GetMapping("/auth/signup/email/{id}")
