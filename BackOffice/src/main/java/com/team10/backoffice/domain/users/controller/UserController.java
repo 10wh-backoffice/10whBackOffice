@@ -10,6 +10,8 @@ import com.team10.backoffice.domain.users.service.UserService;
 import com.team10.backoffice.etc.response.ApiResponse;
 import com.team10.backoffice.jwt.JwtUtil;
 import com.team10.backoffice.security.UserDetailsImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
 
+@Tag(name = "users", description = "유저 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -32,19 +35,20 @@ public class UserController {
     //private final EmailService emailService;
     private final KakaoService kakaoService;
 
+	@Operation(summary = "회원가입")
 	@PostMapping("/auth/signup")
 	public @ResponseBody ResponseEntity<ApiResponse<?>> signup(@Valid @RequestBody UserRequestDto userRequestDto) {
 		this.userService.signup( userRequestDto );
 		return ResponseEntity.ok(ApiResponse.ok(userRequestDto.getUsername() + " 회원가입 성공!" ) );
 	}
-
+	// TODO 이부분은 안쓰이는 것 같아서 코드리뷰에 코멘트가 달리지 않을까하는 생각이 들기도 합니다
 	@GetMapping("/auth/signup/email/{id}")
 	public ResponseEntity<ApiResponse<?>> email_auth(@PathVariable String id) {
 		//this.userService.signupEmailAuth( id );
 
 		return ResponseEntity.ok(ApiResponse.ok("회원 가입을 축하합니다. 이제부터 로그인 가능합니다."));
 	}
-
+	@Operation(summary = "소셜 로그인 리다이렉션 url")
 	@GetMapping("/users/kakao/callback")
 	public ResponseEntity<?> kakaoLogin(@RequestParam String code, HttpServletResponse response) throws JsonProcessingException, UnsupportedEncodingException {
 		String token = kakaoService.kakaoLogin( code );
@@ -60,6 +64,7 @@ public class UserController {
 		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
 	}
 
+	@Operation(summary = "로그아웃")
 	@GetMapping("/users/logout")
 	public ResponseEntity<?> logout(HttpServletResponse response) {
 		Cookie cookie = new Cookie(JwtUtil.AUTHORIZATION_HEADER, "");
@@ -72,6 +77,7 @@ public class UserController {
 		return new ResponseEntity<>(headers, HttpStatus.MOVED_PERMANENTLY);
 	}
 
+	@Operation(summary = "유저 정보 조회")
 	@GetMapping("/users/{userId}")
 	public ResponseEntity<ApiResponse<?>> getUser(@PathVariable long userId) {
 		var userResponseDto = this.userService.getUser(userId);
@@ -79,6 +85,7 @@ public class UserController {
 		return ResponseEntity.ok(ApiResponse.ok(userResponseDto));
 	}
 
+	@Operation(summary = "유저 삭제")
 	@DeleteMapping( "/users/{userId}" )
 	public ResponseEntity< ApiResponse< ? > > deleteUser( @PathVariable long userId,
 	                                                      @AuthenticationPrincipal UserDetailsImpl userDetails )
@@ -88,7 +95,7 @@ public class UserController {
 
 		return ResponseEntity.ok( ApiResponse.ok( "delete success" ) );
 	}
-
+	@Operation(summary = "로그인")
 	@GetMapping("/users/login-user")
 	public ResponseEntity<ApiResponse<?>> getLoginUser(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
 		var user = userDetailsImpl.getUser();
@@ -97,6 +104,7 @@ public class UserController {
 	}
 
 
+	@Operation(summary = "유저 정보 수정")
 	@PatchMapping("/users")
 	public ResponseEntity<ApiResponse<?>> updateProfile(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,@Valid @RequestBody UserRequestDto userRequestDto) {
 		var userId = userDetailsImpl.getUser().getId();
@@ -106,6 +114,7 @@ public class UserController {
 	}
 
 
+	@Operation(summary = "패스워드 변경")
 	@PatchMapping("/password")
 		public ResponseEntity<ApiResponse<?>> updatePassword(
 			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, @Valid @RequestBody UserPasswordDto userPasswordDto) {
