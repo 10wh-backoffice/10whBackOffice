@@ -1,4 +1,4 @@
-<img src ="https://capsule-render.vercel.app/api?type=soft&color=b6e47e&height=150&text=SPARTA BLIND&fontSize=70&fontColor=76bc1e&animation=blink" />
+<img src ="https://capsule-render.vercel.app/api?type=soft&color=b6e47e&height=150&text=SPARTA BLIND&fontSize=70&fontColor=76bc1e&animation=fadeIn" />
 
 ## 🎄 프로젝트 소개
 
