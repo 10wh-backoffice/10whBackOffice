@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/login.css">
 
+    <script defer src="/js/login.js"></script>
     <script defer src="/js/common.js"></script>
 </head>
 
@@ -59,10 +60,10 @@
         <h2>
             Welcome!
         </h2>
-        <form action="">
+        <form onsubmit="return false">
             <input class="username" type="text" placeholder="아이디를 입력하세요."/>
             <input class="password" type="password" placeholder="비밀번호를 입력하세요"/>
-            <input type="submit" value="로그인">
+            <input class="submit-btn" type="submit" value="로그인">
             <p>
 
             </p>
@@ -73,26 +74,5 @@
         </div>
     </div>
 </section>
-<script>
-    async function call() {
-        const response = await axios.get("http://localhost:8080/api/posts");
-        return response.data
-    }
-    call()
-        .then(data => console.log(data))
-        .catch(e => console.log(e))
-
-    const loginBtn = document.querySelector(".login-btn");
-    loginBtn.addEventListener("click", function() {
-        const uVal = document.querySelector(".username").value;
-        const pVal = document.querySelector(".password").value;
-        const data = {username : uVal, password : pVal};
-
-        axios.post("http://localhost:8080/api/users", data);
-        window.location("http://localhost:8080/");
-    }, false);
-
-
-</script>
 </body>
 </html>

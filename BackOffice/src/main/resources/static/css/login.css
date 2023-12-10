@@ -1,12 +1,10 @@
 .signin {
-  /* margin-top: 120px; */
+  margin-top: 120px;
   padding: 100px 0 150px;
-  /* width: 1400px; */
   background-image: url(../images/coding-guide.png);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  /* background-size: contain; */
 }
 
 .signin h1 {
