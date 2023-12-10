@@ -51,6 +51,9 @@
   font-size: 25px;
   flex-grow: 2;
 }
+.content-section .inner .content-each .nickname {
+  margin-right: 20px;
+}
 .content-section .inner .content-each .created-date{
   margin-right: 20px;
 }
