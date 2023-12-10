@@ -39,6 +39,14 @@ public class Post extends Timestamped {
         this.content = postRequestDto.getContent();
     }
 
+    public void addLike() {
+        this.likeCnt++;
+    }
+
+    public void disLike() {
+        this.likeCnt--;
+    }
+
 
 
 }
