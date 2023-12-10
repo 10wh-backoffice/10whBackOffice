@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,35 +11,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@300&family=Nanum+Gothic:wght@400;700&display=swap"
           rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="icon" href="./favicon.png">
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/signup.css">
+
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <link rel="icon" href="/favicon.png">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/login.css">
-
-    <script defer src="/js/login.js"></script>
-    <script defer src="/js/common.js"></script>
+    <script defer src="./js/common.js"></script>
+    <script defer src="./js/signup.js"></script>
 </head>
 
 <body>
 <!-- HEADER -->
 <header>
     <div class="inner">
-        <a href="/" class="logo">
-            <img src="/images/스프링르탄이 복사본.png" alt="LOGO">
+        <a href="./index.html" class="logo">
+            <img src="./images/스프링르탄이 복사본.png" alt="LOGO">
         </a>
 
         <div class="main-menu">
             <ul class="menu">
                 <li>
-                    <a sec:authorize="isAuthenticated()" href="/write">새 글 쓰기</a>
+                    <a href="javascript:void(0)">Sign In</a>
                 </li>
                 <li>
-                    <a sec:authorize="isAuthenticated()"  href="/user/logout">Sign Out</a>
-                    <a sec:authorize="!isAuthenticated()" href="/member/login">Sign In</a>
-                </li>
-                <li>
-                    <a href="/board">자유 게시판</a>
+                    <a href="javascript:void(0)">자유 게시판</a>
                 </li>
                 <li>
                     <a href="javascript:void(0)">토론 게시판</a>
@@ -55,24 +50,22 @@
 </header>
 
 <section class="signin">
-    <h1></h1>
+    <h1>회원가입</h1>
     <div class="signin__card">
         <h2>
-            Welcome!
+            <strong>Welcome!</strong>
         </h2>
         <form onsubmit="return false">
             <input class="username" type="text" placeholder="아이디를 입력하세요."/>
             <input class="password" type="password" placeholder="비밀번호를 입력하세요"/>
-            <input class="submit-btn" type="submit" value="로그인">
+            <input class="email" type="email" placeholder="이메일을 입력하세요"/>
+            <input class="nickname" type="text" placeholder="사용할 닉네임을 입력하세요"/>
+            <input class="signup-btn" type="submit" value="회원가입">
             <p>
-
             </p>
         </form>
-        <div class="actions">
-            <a href="/signup">회원가입</a>
-            <a href="https://kauth.kakao.com/oauth/authorize?client_id=48ecdcfda06ec7bafebfb0d8f59fd9b0&redirect_uri=http://localhost:8080/api/users/kakao/callback&response_type=code">카카오 로그인</a>
-        </div>
     </div>
 </section>
+
 </body>
 </html>

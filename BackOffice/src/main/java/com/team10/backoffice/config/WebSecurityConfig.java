@@ -72,13 +72,13 @@ public class WebSecurityConfig {
                         .requestMatchers("/api/users/login-user").permitAll()
                         .requestMatchers( "/swagger-ui/**" ).permitAll()
                         .requestMatchers( "/v3/api-docs/**" ).permitAll()
-                        .requestMatchers( "/member/login" ).permitAll()
-                        .requestMatchers( "/borad" ).permitAll()
+                        .requestMatchers( "/login" ).permitAll()
+                        .requestMatchers( "/signup" ).permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 
         http.formLogin(form -> form
-                .loginPage("/member/login")
+                .loginPage("/login")
         );
 
         http
