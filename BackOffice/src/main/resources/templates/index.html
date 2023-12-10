@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Devlog</title>
+  <title>Devlind</title>
 
   <link href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,9 @@
     <div class="main-menu">
       <ul class="menu">
         <li>
+          <a sec:authorize="isAuthenticated()" sec:authentication="name" href="/userinfo"></a>
+        </li>
+        <li>
           <a sec:authorize="isAuthenticated()" href="/write">새 글 쓰기</a>
         </li>
         <li>
@@ -55,22 +58,9 @@
 <!-- BANNER -->
 <div class="visual">
   <div class="inner">
-    <!-- <div class="fade-in">
-      <img src="./images/스프링르탄이 복사본.png" alt="new OATMEAL LATTE" class="rtan image1" />
-    </div>
-    <div class="fade-in">
-      <img src="./images/스프링르탄이 복사본.png" alt="new OATMEAL LATTE" class="rtan image2" />
-    </div> -->
+
   </div>
 </div>
 
-<!-- <div class="modal-wrap">
-  <div class="modal_close">
-    <a href="#">close</a>
-  </div>
-  <div class="modal">
-    모달창내용
-  </div>
-</div> -->
 </body>
 </html>
