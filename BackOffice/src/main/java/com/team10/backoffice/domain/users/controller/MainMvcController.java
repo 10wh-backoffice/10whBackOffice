@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Log4j2
 @Controller
-public class SampleController {
+public class MainMvcController {
 
-    @GetMapping("/member/login")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }
@@ -28,6 +28,13 @@ public class SampleController {
     public String detail() {
         return "detail";
     }
-
+    @GetMapping("/signup")
+    public String signup() {
+        return "signup";
+    }
+    @GetMapping("/userinfo")
+    public String userinfo() {
+        return "userinfo";
+    }
 
 }
