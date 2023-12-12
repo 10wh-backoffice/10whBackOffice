@@ -9,17 +9,15 @@ import com.team10.backoffice.domain.users.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImpl implements UsersService {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 
@@ -49,7 +47,9 @@ public class UserService {
 		this.userRepository.save( user );
 	}
 
-	public UserResponseDto getUser(long userId) {
+	@Override
+	public UserResponseDto getUser( String identifier ) {
+		long userId = Integer.parseInt( identifier );
 		var user = this.userRepository.findById(userId)
 				.orElseThrow(() -> new NoSuchElementException("user id : " + userId + " not exist."));
 
