@@ -31,7 +31,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
-
+		log.info( "doFilterInternal" );
 		String tokenValue = jwtUtil.getTokenFromRequest(req);
 
 		if (StringUtils.hasText(tokenValue)) {
@@ -60,6 +60,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 	// 인증 처리
 	public void setAuthentication( String username ) {
+		log.info( "setAuthentication" );
 		SecurityContext context = SecurityContextHolder.createEmptyContext();
 		Authentication authentication = createAuthentication( username );
 		context.setAuthentication(authentication);
