@@ -3,6 +3,7 @@ package com.team10.backoffice.domain.post.service;
 import com.team10.backoffice.domain.post.dto.PostRequestDto;
 import com.team10.backoffice.domain.post.dto.PostResponseDto;
 import com.team10.backoffice.domain.post.entity.Post;
+import com.team10.backoffice.domain.post.repository.PostQueryRepository;
 import com.team10.backoffice.domain.post.repository.PostRepository;
 import com.team10.backoffice.domain.users.entity.User;
 import com.team10.backoffice.domain.users.entity.UserRoleEnum;
@@ -18,6 +19,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PostQueryRepository postQueryRepository;
     private final UserRepository userRepository;
 
     public void addPost(PostRequestDto postRequestDTO, User user) {
@@ -60,6 +62,10 @@ public class PostService {
 
     public List<PostResponseDto> getPosts() {
         return postRepository.findAll().stream().map(PostResponseDto::new).toList();
+    }
+
+    public List< PostResponseDto > getPostsOrderByContentLengthDesc() {
+        return postQueryRepository.findOrderByContentLengthDesc().stream().map( PostResponseDto::new ).toList();
     }
 
 

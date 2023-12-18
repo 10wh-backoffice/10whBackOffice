@@ -50,7 +50,9 @@ public class PostController {
     @Operation(summary = "게시글 전체 조회")
     @GetMapping("/posts") // 게시글 전체 조회
     public ResponseEntity<ApiResponse> getPosts() {
-        return ResponseEntity.ok(ApiResponse.ok(postService.getPosts()));
+
+        return ResponseEntity.ok(ApiResponse.ok(postService.getPostsOrderByContentLengthDesc()));
+//        return ResponseEntity.ok(ApiResponse.ok(postService.getPosts()));
     }
 
     @Operation(summary = "내가 작성한 게시글 조회")
