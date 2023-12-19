@@ -9,6 +9,7 @@ import com.team10.backoffice.domain.users.entity.User;
 import com.team10.backoffice.domain.users.entity.UserRoleEnum;
 import com.team10.backoffice.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,6 +67,10 @@ public class PostService {
 
     public List< PostResponseDto > getPostsOrderByContentLengthDesc() {
         return postQueryRepository.findOrderByContentLengthDesc().stream().map( PostResponseDto::new ).toList();
+    }
+
+    public List< PostResponseDto > getPostsByPage( Pageable pageable ) {
+        return postQueryRepository.search( 0, pageable ).stream().map( PostResponseDto::new ).toList();
     }
 
 

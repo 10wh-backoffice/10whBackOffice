@@ -7,6 +7,7 @@ import com.team10.backoffice.security.UserDetailsImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -49,11 +50,18 @@ public class PostController {
 
     @Operation(summary = "게시글 전체 조회")
     @GetMapping("/posts") // 게시글 전체 조회
-    public ResponseEntity<ApiResponse> getPosts() {
+    public ResponseEntity<ApiResponse> getPosts( int page, int size ) {
+        PageRequest pageRequest = PageRequest.of( page, size );
+        return ResponseEntity.ok( ApiResponse.ok( postService.getPostsByPage( pageRequest ) ) );
 
-        return ResponseEntity.ok(ApiResponse.ok(postService.getPostsOrderByContentLengthDesc()));
 //        return ResponseEntity.ok(ApiResponse.ok(postService.getPosts()));
     }
+
+    @GetMapping( "/postsAll")
+    public ResponseEntity< ApiResponse > getPostsAll() {
+        return ResponseEntity.ok( ApiResponse.ok( postService.getPostsOrderByContentLengthDesc() ) );
+    }
+
 
     @Operation(summary = "내가 작성한 게시글 조회")
     @GetMapping("/posts/myposts") // 내가 작성한 게시글

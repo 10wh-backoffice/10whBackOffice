@@ -20,6 +20,7 @@ configurations {
 repositories {
 	mavenCentral()
 }
+def querydslVersion = '5.0.0'
 
 dependencies {
 	// JWT
@@ -38,6 +39,7 @@ dependencies {
 	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+	implementation 'com.querydsl:querydsl-apt:5.0.0:jakarta' // JPAConfiguration
 
 	// Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -54,10 +56,17 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
 	// Test
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation "org.springframework.boot:spring-boot-starter-test"
+	testImplementation "org.mockito:mockito-core"
 
 	// swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// aws
+	implementation platform('software.amazon.awssdk:bom:2.22.1')
+	implementation 'software.amazon.awssdk:s3'
+	implementation 'software.amazon.awssdk:sso'
+	implementation 'software.amazon.awssdk:ssooidc'
 }
 
 tasks.named('test') {
