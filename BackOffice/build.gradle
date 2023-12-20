@@ -21,6 +21,10 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set( 'springCloudVersion', "2023.0.0" )
+}
+
 dependencies {
 	// JWT
 	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
@@ -35,7 +39,8 @@ dependencies {
 
 	//QueryDSL
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+//	annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
@@ -65,11 +70,14 @@ dependencies {
 //	implementation 'software.amazon.awssdk:s3'
 //	implementation 'software.amazon.awssdk:sso'
 //	implementation 'software.amazon.awssdk:ssooidc'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
-tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder-jammy-base:latest'
-}
+//dependencyManagement {
+//	imports {
+//		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//	}
+//}
 
 tasks.named('test') {
 	useJUnitPlatform()

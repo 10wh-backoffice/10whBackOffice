@@ -1,6 +1,7 @@
 package com.team10.backoffice.domain.post.controller;
 
 import com.team10.backoffice.domain.post.dto.PostRequestDto;
+import com.team10.backoffice.domain.post.service.AwsS3Service;
 import com.team10.backoffice.domain.post.service.PostService;
 import com.team10.backoffice.etc.response.ApiResponse;
 import com.team10.backoffice.security.UserDetailsImpl;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Tag(name = "posts", description = "게시물 API")
 @RestController
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 public class PostController {
 
     private final PostService postService;
+    private final AwsS3Service awsS3Service;
 
 
     @Operation(summary = "게시글 등록")
@@ -67,5 +72,12 @@ public class PostController {
     @GetMapping("/posts/myposts") // 내가 작성한 게시글
     public ResponseEntity<ApiResponse> getMyPosts(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(ApiResponse.ok(postService.getMyPosts(userDetails.getUser())));
+    }
+
+    @PostMapping( "/posts/file" )
+    public ResponseEntity< ApiResponse > uploadFile(
+            @RequestPart( "file" ) MultipartFile multipartFile ) throws IOException {
+
+        return ResponseEntity.ok( ApiResponse.ok( awsS3Service.uploadFileV1( "img",  multipartFile ) ) );
     }
 }

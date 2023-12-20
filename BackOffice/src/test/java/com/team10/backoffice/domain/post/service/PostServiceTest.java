@@ -49,8 +49,7 @@ class PostServiceTest {
 		postService.addPost( postRequestDto, user );
 
 		// then
-		Post createdPost = post;
-		assertEquals( createdPost.getTitle(), "title" );
+		assertEquals( post.getTitle(), "title" );
 	}
 
 	@Test
